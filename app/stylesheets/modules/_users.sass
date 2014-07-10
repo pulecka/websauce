@@ -1,0 +1,25 @@
+.users
+  @extend %collection
+
+.user
+  @extend %gridItem
+  background-position: center
+  background-size: 240px auto
+
+.userName:before
+  @extend %collectionItemTitleCenteredBefore
+  content: ''
+
+.userName
+  @extend %collectionItemTitleCentered
+  color: $textColorLight
+
+.overlay
+  @extend %collectionItemImage
+  display: none
+  border-radius: 50%
+  background: $overlayDark
+
+.user:hover
+  .overlay
+    display: block

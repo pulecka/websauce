@@ -1,0 +1,15 @@
+<ul class="timelineFilter">
+    <li class="timelineFilterItem">all</li>
+    <li class="timelineFilterItem">photos</li>
+    <li class="timelineFilterItem">nearby</li>
+    <li class="timelineFilterItem">friends</li>
+</ul>
+<ul class="timeline">
+    <li class="activity show" ng-repeat="activity in timeline">
+        <img class="photo" src={{activity.photo.timeline.url}}>
+        <div class="comment">{{activity.comment}}</div>
+        <div class="title">{{activity.schodie.name}}</div>
+        <div class="user">{{activity.account.name}}</div>
+        <div class="time">{{activity.ran_at}}</div>
+    </li>
+</ul>

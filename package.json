@@ -1,0 +1,19 @@
+{
+  "name": "opensauce",
+  "version": "0.1.0",
+  "dependencies": {
+    "express": "~3.4.8"
+  },
+  "devDependencies": {
+    "gulp": "^3.5.2",
+    "gulp-rename": "^1.1.0",
+    "gulp-concat": "^2.1.7",
+    "gulp-clean": "^0.2.4",
+    "gulp-minify-css": "^0.3.0",
+    "gulp-uglify": "^0.2.1",
+    "gulp-notify": "^1.0.0-beta",
+    "gulp-jshint": "^1.5.0",
+    "gulp-sass": "^0.7.1",
+    "gulp-ruby-sass": "^0.3.1"
+  }
+}

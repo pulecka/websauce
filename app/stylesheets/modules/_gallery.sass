@@ -1,0 +1,25 @@
+.photos
+  @extend %collection
+
+.photo
+  @extend %gridItem
+  background-position: center
+  background-size: 320px auto
+
+.photoName
+  @extend %collectionItemTitle
+  color: $textColorLight
+
+.photoAuthor
+  @extend %collectionItemSubtitle
+  color: $textColorLight
+
+.overlay
+  @extend %collectionItemImage
+  display: none
+  border-radius: 50%
+  background: $overlayDark
+
+.photo:hover
+  .overlay
+    display: block

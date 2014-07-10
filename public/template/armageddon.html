@@ -1,0 +1,19 @@
+<header class="labHeader">
+    <h1 id="home">
+        <a href="home">opensauce:lab:armageddon</a>
+    </h1>
+</header>
+<main id="content">
+    <div id="sauce"></div>
+    <form id="source">
+        <button class="create" ng-click="upload()">create</button>
+        <button class="save" ng-click="save()">save</button>
+        <fieldset ng-repeat="story in stories">
+            <input type="text" class="name" placeholder="Enter sauce name" ng-model="story.title">
+            <button class="add" ng-click="add(story)">+</button>
+            <button class="remove" ng-click="remove(story)">-</button>
+            <textarea class="text" placeholder="Enter source text" ng-model="story.text"></textarea>
+        </fieldset>
+    </form>
+    <div id="hover"></div>
+</main>

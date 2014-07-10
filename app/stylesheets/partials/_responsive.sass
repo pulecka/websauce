@@ -1,0 +1,16 @@
+@mixin bp($point)
+  @if $point == large-desktop
+    @media (max-width: 1920px)
+      @content
+  @else if $point == desktop
+    @media (max-width: 1280px)
+      @content
+  @else if $point == tablet-landscape
+    @media (max-width: 1024px)
+      @content
+  @else if $point == tablet-portrait
+    @media (max-width: 800px)
+      @content
+  @else if $point == phone
+    @media (max-width: 480px)
+      @content
