@@ -11,66 +11,132 @@ angular.module('opensauce', [
         $urlRouterProvider.otherwise('/');
 
         $stateProvider
-            .state('home', {
+            .state('opensauce', {
                 url: '/',
-                templateUrl: '/template/home.html',
-                controller: 'HomeController'
+                views: {
+                    'header@': {
+                        templateUrl: '/template/header.html'
+                    },
+                    'main@': {
+                        templateUrl: '/template/home.html',
+                        controller: 'HomeController'
+                    }
+                },
+                resolve: {
+                    recipes: ['Recipe', function(Recipe) {
+                        return Recipe.query();
+                    }]
+                }
             })
             .state('sauce', {
-                url: '/sauce',
-                templateUrl: '/template/sauces.html',
-                controller: 'SaucesController'
+                parent: 'opensauce',
+                url: 'sauce',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/sauces.html',
+                        controller: 'SaucesController'
+                    }
+                }
             })
-            .state('saucedetail', {
-                url: '/sauce/:name',
-                templateUrl: '/template/sauce.html',
-                controller: 'SauceController',
+            .state('detail', {
+                parent: 'sauce',
+                url: '/:name',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/sauce.html',
+                        controller: 'SauceController',
+                    }
+                },
                 data: {
                     title: '{{recipe.title}}'
                 },
                 resolve: {
                     recipe: ['$stateParams', 'Recipe', function($stateParams, Recipe) {
-                        return Recipe.get({name: $stateParams.name});
+                        return Recipe.get({name: $stateParams.name}).$promise;
+                    }],
+                    forks: ['$stateParams', 'Recipe', function($stateParams, Recipe) {
+                       return Recipe.forks({name: $stateParams.name});
+                    }],
+                    photos: ['$stateParams', 'Recipe', function($stateParams, Recipe) {
+                        return Recipe.photos({name: $stateParams.name});
+                    }],
+                    comments: ['$stateParams', 'Recipe', function($stateParams, Recipe) {
+                        return Recipe.comments({name: $stateParams.name});
                     }]
                 }
             })
             .state('gallery', {
-                url: '/gallery',
-                templateUrl: '/template/gallery.html',
-                controller: 'GalleryController'
+                parent: 'opensauce',
+                url: 'gallery',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/gallery.html',
+                        controller: 'GalleryController'
+                    }
+                }
             })
             .state('flavor', {
-                url: '/flavor',
-                templateUrl: '/template/flavors.html',
-                controller: 'FlavorsController'
+                parent: 'opensauce',
+                url: 'flavor',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/flavors.html',
+                        controller: 'FlavorsController'
+                    }
+                }
             })
             .state('user', {
-                url: '/user',
-                templateUrl: '/template/users.html',
-                controller: 'UsersController'
+                parent: 'opensauce',
+                url: 'user',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/users.html',
+                        controller: 'UsersController'
+                    }
+                }
             })
             .state('lab', {
-                url: '/lab',
-                templateUrl: '/template/lab.html',
-                controller: 'LabController'
+                parent: 'opensauce',
+                url: 'lab',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/lab.html',
+                        controller: 'LabController'
+                    }
+                }
             })
             .state('mixer', {
-                url: '/lab/mixer',
-                templateUrl: '/template/mix.html',
-                controller: 'MixerController'
+                parent: 'lab',
+                url: '/mixer',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/mix.html',
+                        controller: 'MixerController'
+                    }
+                }
             })
             .state('armageddon', {
-                url: '/lab/armageddon',
-                templateUrl: '/template/armageddon.html',
-                controller: 'ArmageddonController'
+                parent: 'lab',
+                url: '/armageddon',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/armageddon.html',
+                        controller: 'ArmageddonController'
+                    }
+                }
             })
             .state('about', {
-                url: '/about',
-                templateUrl: '/template/about.html',
-                controller: 'AboutController'
+                parent: 'opensauce',
+                url: 'about',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/about.html',
+                        controller: 'AboutController'
+                    }
+                }
             });
     
-        $locationProvider.html5Mode(true).hashPrefix('!') 
+        $locationProvider.html5Mode(true).hashPrefix('!');
     }])
 
     ;

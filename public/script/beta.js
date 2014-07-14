@@ -11,93 +11,157 @@ angular.module('opensauce', [
         $urlRouterProvider.otherwise('/');
 
         $stateProvider
-            .state('home', {
+            .state('opensauce', {
                 url: '/',
-                templateUrl: '/template/home.html',
-                controller: 'HomeController'
+                views: {
+                    'header@': {
+                        templateUrl: '/template/header.html'
+                    },
+                    'main@': {
+                        templateUrl: '/template/home.html',
+                        controller: 'HomeController'
+                    }
+                },
+                resolve: {
+                    recipes: ['Recipe', function(Recipe) {
+                        return Recipe.query();
+                    }]
+                }
             })
             .state('sauce', {
-                url: '/sauce',
-                templateUrl: '/template/sauces.html',
-                controller: 'SaucesController'
+                parent: 'opensauce',
+                url: 'sauce',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/sauces.html',
+                        controller: 'SaucesController'
+                    }
+                }
             })
-            .state('saucedetail', {
-                url: '/sauce/:name',
-                templateUrl: '/template/sauce.html',
-                controller: 'SauceController',
+            .state('detail', {
+                parent: 'sauce',
+                url: '/:name',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/sauce.html',
+                        controller: 'SauceController',
+                    }
+                },
                 data: {
                     title: '{{recipe.title}}'
                 },
                 resolve: {
                     recipe: ['$stateParams', 'Recipe', function($stateParams, Recipe) {
-                        return Recipe.get({name: $stateParams.name});
+                        return Recipe.get({name: $stateParams.name}).$promise;
+                    }],
+                    forks: ['$stateParams', 'Recipe', function($stateParams, Recipe) {
+                       return Recipe.forks({name: $stateParams.name});
+                    }],
+                    photos: ['$stateParams', 'Recipe', function($stateParams, Recipe) {
+                        return Recipe.photos({name: $stateParams.name});
+                    }],
+                    comments: ['$stateParams', 'Recipe', function($stateParams, Recipe) {
+                        return Recipe.comments({name: $stateParams.name});
                     }]
                 }
             })
             .state('gallery', {
-                url: '/gallery',
-                templateUrl: '/template/gallery.html',
-                controller: 'GalleryController'
+                parent: 'opensauce',
+                url: 'gallery',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/gallery.html',
+                        controller: 'GalleryController'
+                    }
+                }
             })
             .state('flavor', {
-                url: '/flavor',
-                templateUrl: '/template/flavors.html',
-                controller: 'FlavorsController'
+                parent: 'opensauce',
+                url: 'flavor',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/flavors.html',
+                        controller: 'FlavorsController'
+                    }
+                }
             })
             .state('user', {
-                url: '/user',
-                templateUrl: '/template/users.html',
-                controller: 'UsersController'
+                parent: 'opensauce',
+                url: 'user',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/users.html',
+                        controller: 'UsersController'
+                    }
+                }
             })
             .state('lab', {
-                url: '/lab',
-                templateUrl: '/template/lab.html',
-                controller: 'LabController'
+                parent: 'opensauce',
+                url: 'lab',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/lab.html',
+                        controller: 'LabController'
+                    }
+                }
             })
             .state('mixer', {
-                url: '/lab/mixer',
-                templateUrl: '/template/mix.html',
-                controller: 'MixerController'
+                parent: 'lab',
+                url: '/mixer',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/mix.html',
+                        controller: 'MixerController'
+                    }
+                }
             })
             .state('armageddon', {
-                url: '/lab/armageddon',
-                templateUrl: '/template/armageddon.html',
-                controller: 'ArmageddonController'
+                parent: 'lab',
+                url: '/armageddon',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/armageddon.html',
+                        controller: 'ArmageddonController'
+                    }
+                }
             })
             .state('about', {
-                url: '/about',
-                templateUrl: '/template/about.html',
-                controller: 'AboutController'
+                parent: 'opensauce',
+                url: 'about',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/about.html',
+                        controller: 'AboutController'
+                    }
+                }
             });
     
-        $locationProvider.html5Mode(true).hashPrefix('!') 
+        $locationProvider.html5Mode(true).hashPrefix('!');
     }])
 
     ;
 
 angular.module('opensauce.controllers', []).
-    controller('HomeController', ['$scope', 'Recipe', function($scope, Recipe) {
-        console.log('asd');
-        $scope.recipes = Recipe.query();
+    controller('HomeController', ['$scope', 'recipes', function($scope, recipes) {
+        $scope.recipes = recipes;
     }])
-    .controller('SaucesController', ['$scope', 'Recipe', function($scope, Recipe) {
-        $scope.recipes = Recipe.query();
+    .controller('SaucesController', ['$scope', 'recipes', function($scope, recipes) {
+        $scope.recipes = recipes;
     }])
-    .controller('SauceController', ['$scope', 'Recipe', 'recipe', function($scope, Recipe, recipe) {
+    .controller('SauceController', ['$scope', 'recipe', 'forks', 'photos', 'comments', 'Recipe', function($scope, recipe, forks, photos, comments, Recipe) {
         $scope.recipe = recipe;
+        $scope.forks = Recipe.forks({name: recipe.name});;
+        $scope.photos = Recipe.photos({name: recipe.name});;
+        $scope.comments = Recipe.comments({name: recipe.name});;
     }])
-    .controller('GalleryController', ['$http', '$scope', function($http, $scope) {
-        $http.get('http://localhost:3000/api/photos').success(function(data) {
-            $scope.photos = data;
-        });
+    .controller('GalleryController', ['$http', '$scope', 'Photo', function($http, $scope, Photo) {
+        $scope.photos = Photo.query();
     }])
     .controller('FlavorsController', ['$scope', 'Ingredient', function($scope, Ingredient) {
         $scope.ingredients = Ingredient.query();
     }])
-    .controller('UsersController', ['$http', '$scope', function($http, $scope) {
-        $http.get('http://localhost:3000/api/users').success(function(data) {
-            $scope.users = data;
-        });
+    .controller('UsersController', ['$http', '$scope', 'User', function($http, $scope, User) {
+        $scope.users = User.query();
     }])
     .controller('LabController', ['$http', '$scope', function($http, $scope) {
     }])
@@ -117,14 +181,14 @@ angular.module('opensauce.controllers', []).
           }).success(function(data, status, headers, config) {
             loadFucking(svg, force, data.nodes, data.links);
           });
-        }
+        };
 
 $scope.add = function(story) {
      $scope.stories.splice($scope.stories.indexOf(story) + 1, 0, {title: "", text: "", ingredients: []});
-}
+};
 $scope.remove = function(story) {
      $scope.stories.splice($scope.stories.indexOf(story), 1);
-}
+};
 
 $scope.save = function() {
      console.log($scope.stories);
@@ -136,7 +200,7 @@ $scope.save = function() {
 $scope.stories = [{title: "", text: "", ingredients: []}];
      });
 
-}
+};
         function dragstart(d) {
             d.fixed = true;
             d3.select(this).classed("fixed", true);
@@ -165,20 +229,32 @@ $scope.stories = [{title: "", text: "", ingredients: []}];
                 .start();
 
             force.on("tick", function() {
-                tick(node, link)
+                tick(node, link);
             });
         }
 
         function tick(node, link) {
             node
-                .attr("cx", function(d) {return d.x})
-                .attr("cy", function(d) {return d.y});
+                .attr("cx", function(d) {
+                    return d.x;
+                })
+                .attr("cy", function(d) {
+                    return d.y;
+                });
 
             link
-                .attr("x1", function(d) {return d.source.x})
-                .attr("y1", function(d) {return d.source.y})
-                .attr("x2", function(d) {return d.target.x})
-                .attr("y2", function(d) {return d.target.y});
+                .attr("x1", function(d) {
+                    return d.source.x;
+                })
+                .attr("y1", function(d) {
+                    return d.source.y;
+                })
+                .attr("x2", function(d) {
+                    return d.target.x;
+                })
+                .attr("y2", function(d) {
+                    return d.target.y;
+                });
         }
 
         function loadColours(svg) {
@@ -190,17 +266,17 @@ $scope.stories = [{title: "", text: "", ingredients: []}];
                     .enter().append("circle")
                     .attr("class", "ingredientNodes")
                     .attr("title", function (d) {
-                        return d.name
+                        return d.name;
                     })
                     .attr("r", 5)
                     .attr("cx", function (d) {
-                        return 120 + d.distance * parseFloat(d.cosine)
+                        return 120 + d.distance * parseFloat(d.cosine);
                     })
                     .attr("cy", function (d) {
-                        return 480 + d.distance * parseFloat(d.sine)
+                        return 480 + d.distance * parseFloat(d.sine);
                     })
                     .style("fill", function (d) {
-                        return d.color
+                        return d.color;
                     });
             });
         }
@@ -212,37 +288,39 @@ $scope.stories = [{title: "", text: "", ingredients: []}];
                     var dClosest = {iIndex: -1, nIndex: i, distance: 1000};
                     ingredientNodes.each(function(e, j) {
                         var distance = Math.sqrt((Math.pow(d.x - $(this).attr("cx"), 2) + Math.pow(d.y - $(this).attr("cy"), 2)));
-                        if (distance < dClosest['distance'] && taken.indexOf(j) == -1) {
-                            dClosest['distance'] = distance;
-                            dClosest['iIndex'] = j;
+                        if (distance < dClosest.distance && taken.indexOf(j) == -1) {
+                            dClosest.distance = distance;
+                            dClosest.iIndex = j;
                         }
                     });
-                    taken.push(dClosest['iIndex']);
+                    taken.push(dClosest.iIndex);
                     closest.push(dClosest);
                 //}
             });
 
-            closest.sort(function(a, b) {return a['distance'] - b['distance']});
+            closest.sort(function(a, b) {
+                return a.distance - b.distance;
+            });
 
             wordIndex = [];
             usedWords = [];
             ingredientIndex = [];
 
             $(closest).each(function(index, element){
-                ingredientIndex.push(data.ingredients[element['iIndex']]['id']);
-                wordIndex.push(nodes[element['nIndex']]);
-                usedWords.push(nodes[element['nIndex']]['name']);
+                ingredientIndex.push(data.ingredients[element.iIndex].id);
+                wordIndex.push(nodes[element.nIndex]);
+                usedWords.push(nodes[element.nIndex].name);
 
-                var names = nodes[element['nIndex']]['pure']
+                var names = nodes[element.nIndex].pure;
                 $.each(names, function(i, name) {
                   $.each($scope.stories, function(j, story) {
                     if (story.title == name) {
-                      story.ingredients.push(data.ingredients[element['iIndex']]['id']);
+                      story.ingredients.push(data.ingredients[element.iIndex].id);
                     }
                   });
                 });
 
-                node.select(function(d, i) {return i == element['nIndex'] ? this : null})
+                node.select(function(d, i) {return i == element.nIndex ? this : null;})
                     .transition()
                     .delay(0)
                     .duration(duration)
@@ -250,7 +328,7 @@ $scope.stories = [{title: "", text: "", ingredients: []}];
                         force.stop();
                     })
                     .tween("position", function(e, j) {
-                        var ingred = $(ingredientNodes[0][element['iIndex']]),
+                        var ingred = $(ingredientNodes[0][element.iIndex]),
                             dX = ingred.attr('cX'),
                             dY = ingred.attr('cY');
 
@@ -280,31 +358,6 @@ $scope.stories = [{title: "", text: "", ingredients: []}];
                         force.start();
                     });
             });
-        }
-
-        function materie(node, link, force) {
-            var ingred = ingredientNodes.select(function(d, i) {return d.id == 41 ? this : null}).node();
-
-            console.log(ingred);
-            console.log(node);
-
-            node.select(function(d, i) {return d.name == 'materie' ? this : null})
-                .call(function(d, i) {
-                    force.stop();
-                    d.fixed = true;
-                })
-                .attr("cx", function () {
-                    return $(ingred).attr('cX');
-                })
-                .attr("cy", function () {
-                    return $(ingred).attr('cY');
-                })
-                .call(function(d, i) {
-                    console.log(d);
-                    d.fixed = true;
-                    tick(node, link);
-                    force.start();
-                });
         }
 
         function drawLinks(svg, links) {
@@ -358,8 +411,6 @@ $scope.stories = [{title: "", text: "", ingredients: []}];
 
                 loadForce(force, nodes, links, node, link);
 
-                //materie(node, link, force);
-
                 setTimeout(function () {
     				getPositions(nodes, link, node, ingredientNodes, force, 5000);
                     }, 10000
@@ -410,7 +461,7 @@ $scope.stories = [{title: "", text: "", ingredients: []}];
                 $scope.name = "";
                 RecipeMaker.init();
             });
-        }
+        };
     }])
     .controller('AboutController', ['$http', '$scope', function($http, $scope) {
     }]);
@@ -436,12 +487,13 @@ angular.module('opensauce.directives', [])
             scope: {
                 recipe: '='
             },
-            template: '<li class="recipe"><a ui-sref="sauce({ name: recipe.name })"><div class="recipeName">{{recipe.title}}</div></a><div class="recipeAuthor">{{recipe.account.name}}</div><canvas class="recipeBackground"></canvas></li>',
+            template: '<li class="recipe"><a ui-sref="detail({ name: recipe.name })"><div class="recipeName">{{recipe.title}}</div><div class="recipeAuthor">{{recipe.account.name}}</div></a><canvas class="recipeBackground"></canvas></li>',
             link: function(scope, element) {
                 var canvas = element.find('.recipeBackground')[0],
-                    context = canvas.getContext('2d'),
+                    context = canvas.getContext('2d'), width;
                     width = element.outerWidth();
 
+                element.outerHeight(width);
                 canvas.height = width;
                 canvas.width = width;
 
@@ -532,7 +584,7 @@ angular.module('opensauce.directives', [])
                     .attr("width", width)
                     .attr("height", height);
 
-                zen.init(svg, width, height);
+                zen.init(svg, width, height, []);
 
                 scope.recipeMaker = RecipeMaker;
 
@@ -580,7 +632,7 @@ angular.module('opensauce.directives', [])
                             return (i % 2 === 0 ? innerRadius : outerRadius) * Math.cos(i * deltaAngle * (Math.PI / 180)) + height / 2;
                         })
                         .style("fill", function (d) {
-                            return d.color
+                            return d.color;
                         });
                 }
 
@@ -588,8 +640,12 @@ angular.module('opensauce.directives', [])
                     c.on('mousedown', function (d) {
                         d3.event.preventDefault();
                         d3.event.stopPropagation();
-                        d.selected = d.selected ? false : true;
-                        d.selected ? RecipeMaker.addIngredient(d.id) : RecipeMaker.removeIngredient(d.id);
+                        d.selected = !d.selected;
+                        if (d.selected) {
+                            RecipeMaker.addIngredient(d.id);
+                        } else {
+                            RecipeMaker.removeIngredient(d.id);
+                        }
                         zen.setNodes(d, d.selected ? 24 : 0);
                         drawColors();
                     });
@@ -609,11 +665,29 @@ angular.module('opensauce.directives', [])
             }
         };
     }])
+    .directive('zen', ['ZenFactory', function(ZenFactory) {
+        return {
+            restrict: 'C',
+            scope: {
+                ingredients: '='
+            },
+            link: function(scope, element) {
+                var width = element.outerWidth(),
+                    height = width;
+
+                var svg = d3.select(element[0]).append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+
+                ZenFactory.init(svg, width, height, scope.ingredients);
+            }
+        };
+    }])
     .directive('headertitle', ['$state', '$interpolate', function($state, $interpolate) {
         return {
             restrict: 'E',
             replace: true,
-            template: '<h1 class="headertitle"><a class="breadcrumb"><span ng-repeat="crumb in breadcrumbs">{{crumb.displayName}}:</span></a></h1>',
+            template: '<ul class="breadcrumbs"><li class="breadcrumb" ng-repeat="crumb in breadcrumbs" ng-class="{active: $last}"><a ui-sref="{{crumb.route}}" ng-if="!$last">{{crumb.displayName}}:</a><span ng-if="$last">{{crumb.displayName}}</span></li></ul>',
             link: function(scope) {
                 scope.breadcrumbs = [];
                 if ($state.$current.name !== '') {
@@ -637,11 +711,6 @@ angular.module('opensauce.directives', [])
                         }
                         currentState = currentState.parent;
                     }
-
-                    breadcrumbs.push({
-                        displayName: 'opensauce',
-                        route: 'home'
-                    });
 
                     breadcrumbs.reverse();
                     scope.breadcrumbs = breadcrumbs;
@@ -696,20 +765,107 @@ angular.module('opensauce.directives', [])
         };
     }]);
 angular.module('opensauce.filters', []).
-  filter('interpolate', ['version', function(version) {
-    return function(text) {
-      return String(text).replace(/\%VERSION\%/mg, version);
-    };
-  }]);
+	filter('interpolate', ['version', function(version) {
+		return function(text) {
+			return String(text).replace(/\%VERSION\%/mg, version);
+		};
+	}])
+	.filter('timeago', function() {
+        return function(input, p_allowFuture) {
+            var substitute = function (stringOrFunction, number, strings) {
+                    var string = $.isFunction(stringOrFunction) ? stringOrFunction(number, dateDifference) : stringOrFunction;
+                    var value = (strings.numbers && strings.numbers[number]) || number;
+                    return string.replace(/%d/i, value);
+                },
+                nowTime = (new Date()).getTime(),
+                date = (new Date(input)).getTime(),
+                allowFuture = p_allowFuture || false,
+                strings= {
+                    prefixAgo: null,
+                    prefixFromNow: null,
+                    suffixAgo: "ago",
+                    suffixFromNow: "from now",
+                    seconds: "less than a minute",
+                    minute: "about a minute",
+                    minutes: "%d minutes",
+                    hour: "about an hour",
+                    hours: "about %d hours",
+                    day: "a day",
+                    days: "%d days",
+                    month: "about a month",
+                    months: "%d months",
+                    year: "about a year",
+                    years: "%d years"
+                },
+                dateDifference = nowTime - date,
+                words,
+                seconds = Math.abs(dateDifference) / 1000,
+                minutes = seconds / 60,
+                hours = minutes / 60,
+                days = hours / 24,
+                years = days / 365,
+                separator = strings.wordSeparator === undefined ?  " " : strings.wordSeparator,
+            
+                prefix = strings.prefixAgo,
+                suffix = strings.suffixAgo;
+                
+            if (allowFuture) {
+                if (dateDifference < 0) {
+                    prefix = strings.prefixFromNow;
+                    suffix = strings.suffixFromNow;
+                }
+            }
+
+            words = seconds < 45 && substitute(strings.seconds, Math.round(seconds), strings) ||
+            seconds < 90 && substitute(strings.minute, 1, strings) ||
+            minutes < 45 && substitute(strings.minutes, Math.round(minutes), strings) ||
+            minutes < 90 && substitute(strings.hour, 1, strings) ||
+            hours < 24 && substitute(strings.hours, Math.round(hours), strings) ||
+            hours < 42 && substitute(strings.day, 1, strings) ||
+            days < 30 && substitute(strings.days, Math.round(days), strings) ||
+            days < 45 && substitute(strings.month, 1, strings) ||
+            days < 365 && substitute(strings.months, Math.round(days / 30), strings) ||
+            years < 1.5 && substitute(strings.year, 1, strings) ||
+            substitute(strings.years, Math.round(years), strings);
+
+            return $.trim([prefix, words, suffix].join(separator));
+        }
+    });
 
 angular.module('opensauce.services', [])
     .value('version', '0.1')
     .factory('Ingredient', ['$resource', function($resource) {
-        var Ingredient = $resource('http://www.opensauce.cz/api/ingredient/:name', {}, {});
+        var Ingredient = $resource('http://localhost:3000/api/ingredient/:name', {}, {});
         return Ingredient;
     }])
     .factory('Recipe', ['$resource', function($resource) {
-        var Recipe = $resource('http://www.opensauce.cz/api/recipe/:name', {}, {});
+        // var recipeUrl = 'http://localhost:3000/api/recipe/:name',
+        var recipeUrl = 'http://www.opensauce.cz/api/recipe/:name',
+            Recipe = $resource(recipeUrl, {}, {
+            comments: { 
+                method: 'GET', 
+                url: recipeUrl + '/comments',
+                isArray: true 
+            },
+            photos: { 
+                method: 'GET', 
+                url: recipeUrl + '/photos',
+                isArray: true 
+            },
+            forks: { 
+                method: 'GET', 
+                url: recipeUrl + '/forks',
+                isArray: true 
+            } 
+        });
+        return Recipe;
+    }])
+    .factory('Photo', ['$resource', function($resource) {
+        var Ingredient = $resource('http://localhost:3000/api/photo/:name', {}, {});
+        return Ingredient;
+    }])
+    .factory('User', ['$resource', function($resource) {
+        var Recipe = $resource('http://localhost:3000/api/user/:name', {}, {});
         return Recipe;
     }])
     .service('RecipeMaker', function() {
@@ -758,13 +914,25 @@ angular.module('opensauce.services', [])
             drawNodes();
         }
 
-        function initNodes() {
+        function initNodes(ingredients) {
             nodes = [{
                 ingredient: 0,
                 radius: 1,
                 color: 'transparent',
                 hue: 0
             }];
+
+            var amount = ingredients.length ? Math.round(480 / ingredients.length) : 0;
+            $.each(ingredients, function (index, ingredient) {
+                nodes = nodes.concat(d3.range(amount).map(function() {
+                    return {
+                        ingredient: ingredient.id,
+                        radius: 4,
+                        color: ingredient.color,
+                        hue: d3.rgb(ingredient.color).hsl().h
+                    };
+                }));
+            });
         }
 
         function setNodes(ingredient, amount) {
@@ -775,7 +943,7 @@ angular.module('opensauce.services', [])
 
             $.each(nodes, function (index, node) {
                 if (node.ingredient == id) {
-                    ingredientNodes.push(index)
+                    ingredientNodes.push(index);
                 }
             });
 
@@ -791,7 +959,7 @@ angular.module('opensauce.services', [])
                 nodes = nodes.concat(d3.range(delta).map(function() {
                     return {
                         ingredient: id,
-                        radius: 6,
+                        radius: 5,
                         color: color,
                         hue: hue
                     };
@@ -804,12 +972,12 @@ angular.module('opensauce.services', [])
                 .start();
         }
 
-        function init(element, width, height) {
+        function init(element, width, height, ingredients) {
             svg = element;
             w = width;
             h = height;
 
-            initNodes();
+            initNodes(ingredients);
             drawNodes();
             bindNodes();
             initForce(0.04, -1000);
@@ -827,9 +995,9 @@ angular.module('opensauce.services', [])
                     var x = node.x - quad.point.x,
                         y = node.y - quad.point.y,
                         l = Math.sqrt(x * x + y * y),
-                        r = node.radius + ((node.ingredient % 10) / 4) * Math.random() + quad.point.radius;
+                        r = node.radius + (node.hue / 48) % 4 + 4 + quad.point.radius;
                     if (l < r) {
-                        l = (l - r) / l * .5;
+                        l = (l - r) / l * 0.5;
                         node.x -= x *= l;
                         node.y -= y *= l;
                         quad.point.x += x;
@@ -837,13 +1005,13 @@ angular.module('opensauce.services', [])
                     }
                 }
                 return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
-            }
+            };
         }
 
         function initForce(gravity, charge) {
             force = d3.layout.force()
                 .gravity(gravity)
-                .charge(function (d, i) {return i == 0 ? charge : 0})
+                .charge(function (d, i) {return i === 0 ? charge : 0;})
                 .nodes(nodes)
                 .size([w, h]);
 
@@ -863,8 +1031,8 @@ angular.module('opensauce.services', [])
                 }
 
                 svg.selectAll("circle.zen")
-                    .attr("cx", function (d) {return d.x})
-                    .attr("cy", function (d) {return d.y});
+                    .attr("cx", function (d) {return d.x;})
+                    .attr("cy", function (d) {return d.y;});
             });
             force.start();
         }
@@ -872,13 +1040,13 @@ angular.module('opensauce.services', [])
         function drawNodes() {
             c = svg.selectAll("circle.zen")
                 .data(nodes)
-                .attr("r", function(d) {return d.radius})
-                .style("fill", function(d) {return d.color});
+                .attr("r", function(d) {return d.radius;})
+                .style("fill", function(d) {return d.color;});
 
             c.enter().append("svg:circle")
                 .attr("class", "zen")
-                .attr("r", function(d) {return d.radius})
-                .style("fill", function(d) {return d.color});
+                .attr("r", function(d) {return d.radius;})
+                .style("fill", function(d) {return d.color;});
 
             c.exit().remove();
         }
@@ -913,13 +1081,13 @@ angular.module('opensauce.services', [])
 
         function chargeNodes(container, touch, index) {
             force.stop()
-                .charge(function (d) {return d.index == index ? -640 : 0});
+                .charge(function (d) {return d.index == index ? -640 : 0;});
 
             root.fixed = false;
             root = nodes[index];
             root.fixed = true;
 
-            if (index == 0) {
+            if (index === 0) {
                 var p1;
                 if (touch) {
                     p1 = d3.touches(container)[0];

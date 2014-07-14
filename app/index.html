@@ -11,5 +11,9 @@
     <script src="/script/lib/d3.min.js" type="text/javascript"></script>
     <script src="/script/beta.min.js" type="text/javascript"></script>
   </head>
-  <body ui-view></body>
+  <body>
+    <header ui-view="header"></header>
+    <main ui-view="main" id="content"></main>
+  </body>
+
 </html>

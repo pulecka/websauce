@@ -1,26 +1,24 @@
 angular.module('opensauce.controllers', []).
-    controller('HomeController', ['$scope', 'Recipe', function($scope, Recipe) {
-        console.log('asd');
-        $scope.recipes = Recipe.query();
+    controller('HomeController', ['$scope', 'recipes', function($scope, recipes) {
+        $scope.recipes = recipes;
     }])
-    .controller('SaucesController', ['$scope', 'Recipe', function($scope, Recipe) {
-        $scope.recipes = Recipe.query();
+    .controller('SaucesController', ['$scope', 'recipes', function($scope, recipes) {
+        $scope.recipes = recipes;
     }])
-    .controller('SauceController', ['$scope', 'Recipe', 'recipe', function($scope, Recipe, recipe) {
+    .controller('SauceController', ['$scope', 'recipe', 'forks', 'photos', 'comments', 'Recipe', function($scope, recipe, forks, photos, comments, Recipe) {
         $scope.recipe = recipe;
+        $scope.forks = Recipe.forks({name: recipe.name});;
+        $scope.photos = Recipe.photos({name: recipe.name});;
+        $scope.comments = Recipe.comments({name: recipe.name});;
     }])
-    .controller('GalleryController', ['$http', '$scope', function($http, $scope) {
-        $http.get('http://localhost:3000/api/photos').success(function(data) {
-            $scope.photos = data;
-        });
+    .controller('GalleryController', ['$http', '$scope', 'Photo', function($http, $scope, Photo) {
+        $scope.photos = Photo.query();
     }])
     .controller('FlavorsController', ['$scope', 'Ingredient', function($scope, Ingredient) {
         $scope.ingredients = Ingredient.query();
     }])
-    .controller('UsersController', ['$http', '$scope', function($http, $scope) {
-        $http.get('http://localhost:3000/api/users').success(function(data) {
-            $scope.users = data;
-        });
+    .controller('UsersController', ['$http', '$scope', 'User', function($http, $scope, User) {
+        $scope.users = User.query();
     }])
     .controller('LabController', ['$http', '$scope', function($http, $scope) {
     }])
@@ -40,14 +38,14 @@ angular.module('opensauce.controllers', []).
           }).success(function(data, status, headers, config) {
             loadFucking(svg, force, data.nodes, data.links);
           });
-        }
+        };
 
 $scope.add = function(story) {
      $scope.stories.splice($scope.stories.indexOf(story) + 1, 0, {title: "", text: "", ingredients: []});
-}
+};
 $scope.remove = function(story) {
      $scope.stories.splice($scope.stories.indexOf(story), 1);
-}
+};
 
 $scope.save = function() {
      console.log($scope.stories);
@@ -59,7 +57,7 @@ $scope.save = function() {
 $scope.stories = [{title: "", text: "", ingredients: []}];
      });
 
-}
+};
         function dragstart(d) {
             d.fixed = true;
             d3.select(this).classed("fixed", true);
@@ -88,20 +86,32 @@ $scope.stories = [{title: "", text: "", ingredients: []}];
                 .start();
 
             force.on("tick", function() {
-                tick(node, link)
+                tick(node, link);
             });
         }
 
         function tick(node, link) {
             node
-                .attr("cx", function(d) {return d.x})
-                .attr("cy", function(d) {return d.y});
+                .attr("cx", function(d) {
+                    return d.x;
+                })
+                .attr("cy", function(d) {
+                    return d.y;
+                });
 
             link
-                .attr("x1", function(d) {return d.source.x})
-                .attr("y1", function(d) {return d.source.y})
-                .attr("x2", function(d) {return d.target.x})
-                .attr("y2", function(d) {return d.target.y});
+                .attr("x1", function(d) {
+                    return d.source.x;
+                })
+                .attr("y1", function(d) {
+                    return d.source.y;
+                })
+                .attr("x2", function(d) {
+                    return d.target.x;
+                })
+                .attr("y2", function(d) {
+                    return d.target.y;
+                });
         }
 
         function loadColours(svg) {
@@ -113,17 +123,17 @@ $scope.stories = [{title: "", text: "", ingredients: []}];
                     .enter().append("circle")
                     .attr("class", "ingredientNodes")
                     .attr("title", function (d) {
-                        return d.name
+                        return d.name;
                     })
                     .attr("r", 5)
                     .attr("cx", function (d) {
-                        return 120 + d.distance * parseFloat(d.cosine)
+                        return 120 + d.distance * parseFloat(d.cosine);
                     })
                     .attr("cy", function (d) {
-                        return 480 + d.distance * parseFloat(d.sine)
+                        return 480 + d.distance * parseFloat(d.sine);
                     })
                     .style("fill", function (d) {
-                        return d.color
+                        return d.color;
                     });
             });
         }
@@ -135,37 +145,39 @@ $scope.stories = [{title: "", text: "", ingredients: []}];
                     var dClosest = {iIndex: -1, nIndex: i, distance: 1000};
                     ingredientNodes.each(function(e, j) {
                         var distance = Math.sqrt((Math.pow(d.x - $(this).attr("cx"), 2) + Math.pow(d.y - $(this).attr("cy"), 2)));
-                        if (distance < dClosest['distance'] && taken.indexOf(j) == -1) {
-                            dClosest['distance'] = distance;
-                            dClosest['iIndex'] = j;
+                        if (distance < dClosest.distance && taken.indexOf(j) == -1) {
+                            dClosest.distance = distance;
+                            dClosest.iIndex = j;
                         }
                     });
-                    taken.push(dClosest['iIndex']);
+                    taken.push(dClosest.iIndex);
                     closest.push(dClosest);
                 //}
             });
 
-            closest.sort(function(a, b) {return a['distance'] - b['distance']});
+            closest.sort(function(a, b) {
+                return a.distance - b.distance;
+            });
 
             wordIndex = [];
             usedWords = [];
             ingredientIndex = [];
 
             $(closest).each(function(index, element){
-                ingredientIndex.push(data.ingredients[element['iIndex']]['id']);
-                wordIndex.push(nodes[element['nIndex']]);
-                usedWords.push(nodes[element['nIndex']]['name']);
+                ingredientIndex.push(data.ingredients[element.iIndex].id);
+                wordIndex.push(nodes[element.nIndex]);
+                usedWords.push(nodes[element.nIndex].name);
 
-                var names = nodes[element['nIndex']]['pure']
+                var names = nodes[element.nIndex].pure;
                 $.each(names, function(i, name) {
                   $.each($scope.stories, function(j, story) {
                     if (story.title == name) {
-                      story.ingredients.push(data.ingredients[element['iIndex']]['id']);
+                      story.ingredients.push(data.ingredients[element.iIndex].id);
                     }
                   });
                 });
 
-                node.select(function(d, i) {return i == element['nIndex'] ? this : null})
+                node.select(function(d, i) {return i == element.nIndex ? this : null;})
                     .transition()
                     .delay(0)
                     .duration(duration)
@@ -173,7 +185,7 @@ $scope.stories = [{title: "", text: "", ingredients: []}];
                         force.stop();
                     })
                     .tween("position", function(e, j) {
-                        var ingred = $(ingredientNodes[0][element['iIndex']]),
+                        var ingred = $(ingredientNodes[0][element.iIndex]),
                             dX = ingred.attr('cX'),
                             dY = ingred.attr('cY');
 
@@ -203,31 +215,6 @@ $scope.stories = [{title: "", text: "", ingredients: []}];
                         force.start();
                     });
             });
-        }
-
-        function materie(node, link, force) {
-            var ingred = ingredientNodes.select(function(d, i) {return d.id == 41 ? this : null}).node();
-
-            console.log(ingred);
-            console.log(node);
-
-            node.select(function(d, i) {return d.name == 'materie' ? this : null})
-                .call(function(d, i) {
-                    force.stop();
-                    d.fixed = true;
-                })
-                .attr("cx", function () {
-                    return $(ingred).attr('cX');
-                })
-                .attr("cy", function () {
-                    return $(ingred).attr('cY');
-                })
-                .call(function(d, i) {
-                    console.log(d);
-                    d.fixed = true;
-                    tick(node, link);
-                    force.start();
-                });
         }
 
         function drawLinks(svg, links) {
@@ -281,8 +268,6 @@ $scope.stories = [{title: "", text: "", ingredients: []}];
 
                 loadForce(force, nodes, links, node, link);
 
-                //materie(node, link, force);
-
                 setTimeout(function () {
     				getPositions(nodes, link, node, ingredientNodes, force, 5000);
                     }, 10000
@@ -333,7 +318,7 @@ $scope.stories = [{title: "", text: "", ingredients: []}];
                 $scope.name = "";
                 RecipeMaker.init();
             });
-        }
+        };
     }])
     .controller('AboutController', ['$http', '$scope', function($http, $scope) {
     }]);

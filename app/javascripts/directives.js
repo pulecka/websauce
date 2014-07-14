@@ -19,12 +19,13 @@ angular.module('opensauce.directives', [])
             scope: {
                 recipe: '='
             },
-            template: '<li class="recipe"><a ui-sref="sauce({ name: recipe.name })"><div class="recipeName">{{recipe.title}}</div></a><div class="recipeAuthor">{{recipe.account.name}}</div><canvas class="recipeBackground"></canvas></li>',
+            template: '<li class="recipe"><a ui-sref="detail({ name: recipe.name })"><div class="recipeName">{{recipe.title}}</div><div class="recipeAuthor">{{recipe.account.name}}</div></a><canvas class="recipeBackground"></canvas></li>',
             link: function(scope, element) {
                 var canvas = element.find('.recipeBackground')[0],
-                    context = canvas.getContext('2d'),
+                    context = canvas.getContext('2d'), width;
                     width = element.outerWidth();
 
+                element.outerHeight(width);
                 canvas.height = width;
                 canvas.width = width;
 
@@ -115,7 +116,7 @@ angular.module('opensauce.directives', [])
                     .attr("width", width)
                     .attr("height", height);
 
-                zen.init(svg, width, height);
+                zen.init(svg, width, height, []);
 
                 scope.recipeMaker = RecipeMaker;
 
@@ -163,7 +164,7 @@ angular.module('opensauce.directives', [])
                             return (i % 2 === 0 ? innerRadius : outerRadius) * Math.cos(i * deltaAngle * (Math.PI / 180)) + height / 2;
                         })
                         .style("fill", function (d) {
-                            return d.color
+                            return d.color;
                         });
                 }
 
@@ -171,8 +172,12 @@ angular.module('opensauce.directives', [])
                     c.on('mousedown', function (d) {
                         d3.event.preventDefault();
                         d3.event.stopPropagation();
-                        d.selected = d.selected ? false : true;
-                        d.selected ? RecipeMaker.addIngredient(d.id) : RecipeMaker.removeIngredient(d.id);
+                        d.selected = !d.selected;
+                        if (d.selected) {
+                            RecipeMaker.addIngredient(d.id);
+                        } else {
+                            RecipeMaker.removeIngredient(d.id);
+                        }
                         zen.setNodes(d, d.selected ? 24 : 0);
                         drawColors();
                     });
@@ -192,11 +197,29 @@ angular.module('opensauce.directives', [])
             }
         };
     }])
+    .directive('zen', ['ZenFactory', function(ZenFactory) {
+        return {
+            restrict: 'C',
+            scope: {
+                ingredients: '='
+            },
+            link: function(scope, element) {
+                var width = element.outerWidth(),
+                    height = width;
+
+                var svg = d3.select(element[0]).append("svg")
+                    .attr("width", width)
+                    .attr("height", height);
+
+                ZenFactory.init(svg, width, height, scope.ingredients);
+            }
+        };
+    }])
     .directive('headertitle', ['$state', '$interpolate', function($state, $interpolate) {
         return {
             restrict: 'E',
             replace: true,
-            template: '<h1 class="headertitle"><a class="breadcrumb"><span ng-repeat="crumb in breadcrumbs">{{crumb.displayName}}:</span></a></h1>',
+            template: '<ul class="breadcrumbs"><li class="breadcrumb" ng-repeat="crumb in breadcrumbs" ng-class="{active: $last}"><a ui-sref="{{crumb.route}}" ng-if="!$last">{{crumb.displayName}}:</a><span ng-if="$last">{{crumb.displayName}}</span></li></ul>',
             link: function(scope) {
                 scope.breadcrumbs = [];
                 if ($state.$current.name !== '') {
@@ -220,11 +243,6 @@ angular.module('opensauce.directives', [])
                         }
                         currentState = currentState.parent;
                     }
-
-                    breadcrumbs.push({
-                        displayName: 'opensauce',
-                        route: 'home'
-                    });
 
                     breadcrumbs.reverse();
                     scope.breadcrumbs = breadcrumbs;

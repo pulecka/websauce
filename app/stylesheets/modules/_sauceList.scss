@@ -1,0 +1,25 @@
+.recipes {
+  @extend %collection;
+}
+
+.recipe {
+  @extend %gridItem;
+}
+
+.recipeName {
+  @extend %collectionItemTitle;
+  color: $textColorDark;
+}
+.recipeAuthor {
+  @extend %collectionItemSubtitle;
+  color: $textColorDark;
+}
+
+.recipeBackground {
+  @extend %collectionItemImage;
+}
+
+.zen {
+  float: left;
+  width: 480px;
+}

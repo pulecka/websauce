@@ -1,104 +1,72 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
 html {
-  height: 100%;
-}
+  height: 100%; }
 
 body {
   height: 100%;
   margin: 0;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   font-size: 12px;
-  font-weight: 300;
-}
+  font-weight: 300; }
 
 a {
   text-decoration: none;
-  color: #202020;
-}
+  color: #202020; }
 
 main {
   width: 1120px;
   margin: 140px auto 20px;
-  overflow: hidden;
-}
+  overflow: hidden; }
 
-html {
-  height: 100%;
-}
-
-body {
-  height: 100%;
-  margin: 0;
-  font-family: "Source Sans Pro", sans-serif;
-  font-size: 12px;
-  font-weight: 300;
-}
-
-a {
-  text-decoration: none;
-  color: #202020;
-}
-
-main {
-  width: 1120px;
-  margin: 140px auto 20px;
-  overflow: hidden;
-}
-
-.recipes, .ingredients, .photos, .users, .labList, .aboutList {
+.recipes, .sauceDetail-photos, .sauceDetail-recipes, .sauceDetail-comments, .photos, .users {
   width: 100%;
   margin: 0;
   padding: 0;
   overflow: hidden;
   list-style: none;
-}
+  text-align: center; }
 
-.recipe, .ingredient, .photo, .user, .event, .add,
-.remove, .aboutList .link, .labList .lab, .aboutList .aboutItem {
+.sauceDetail-header {
+  clear: both;
+  margin: 2em 0 0;
+  color: #646464;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 100;
+  letter-spacing: 0.0625em; }
+
+.recipe, .sauceDetail-photo, .photo, .user, .sauceDetail-comment {
+  display: inline-block;
   position: relative;
-  float: left;
   margin: 20px;
   padding: 0;
-  overflow: hidden;
-}
+  overflow: hidden; }
 
-.recipe, .ingredient, .photo, .user, .event, .add,
-.remove, .aboutList .link, .labList .labIcon, .aboutList .aboutItemIcon {
-  height: 240px;
+.recipe, .sauceDetail-photo, .photo, .user {
   width: 240px;
-  border-radius: 50%;
-}
-@media (max-width: 1024px) {
-  .recipe, .ingredient, .photo, .user, .event, .add,
-  .remove, .aboutList .link, .labList .labIcon, .aboutList .aboutItemIcon {
-    height: 200px;
-    width: 200px;
-  }
-}
-@media (max-width: 800px) {
-  .recipe, .ingredient, .photo, .user, .event, .add,
-  .remove, .aboutList .link, .labList .labIcon, .aboutList .aboutItemIcon {
-    height: 160px;
-    width: 160px;
-  }
-}
-@media (max-width: 480px) {
-  .recipe, .ingredient, .photo, .user, .event, .add,
-  .remove, .aboutList .link, .labList .labIcon, .aboutList .aboutItemIcon {
-    height: 160px;
-    width: 160px;
-  }
-}
+  height: 240px;
+  border-radius: 50%; }
+  @media (max-width: 1024px) {
+    %circleItem {
+      height: 200px;
+      width: 200px; } }
+  @media (max-width: 800px) {
+    %circleItem {
+      height: 160px;
+      width: 160px; } }
+  @media (max-width: 480px) {
+    %circleItem {
+      height: 160px;
+      width: 160px; } }
 
-.recipe, .ingredient, .photo, .user, .event, .add,
-.remove, .aboutList .link {
-  cursor: pointer;
-}
+.recipe, .sauceDetail-photo, .photo, .user {
+  cursor: pointer; }
 
-.labList .lab, .aboutList .aboutItem {
-  clear: both;
-}
-
-.ingredientName, .userName, .aboutList .linkName, .recipeName, .photoName, .eventName {
+.userName, .recipeName, .sauceDetail-photoAuthor, .photoName {
   position: absolute;
   bottom: 48%;
   left: 10%;
@@ -107,42 +75,37 @@ main {
   line-height: 1.2em;
   text-transform: lowercase;
   text-align: center;
-  letter-spacing: 0.0625em;
-}
+  letter-spacing: 0.0625em; }
 
-.ingredientNameBefore, .userName:before, .aboutList .linkName:before {
+.userName:before {
   display: inline-block;
   height: 100%;
   vertical-align: middle;
-  margin-right: -0.25em;
-}
+  margin-right: -0.25em; }
 
-.ingredientName, .userName, .aboutList .linkName {
+.userName {
   position: static;
   display: inline-block;
   vertical-align: middle;
-  padding: 0 10%;
-}
+  padding: 0 10%; }
 
-.recipeAuthor, .photoAuthor, .eventDate {
+.recipeAuthor, .photoAuthor {
   position: absolute;
   top: 54%;
-  right: 12%;
+  left: 12%;
   width: 76%;
   font-size: 16px;
   line-height: 1.2em;
   text-transform: lowercase;
   text-align: center;
-  letter-spacing: 0.0625em;
-}
+  letter-spacing: 0.0625em; }
 
-.recipeBackground, .overlay {
+.recipeBackground, .sauceDetail-overlay, .overlay, .overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-}
+  height: 100%; }
 
 header {
   position: fixed;
@@ -150,14 +113,12 @@ header {
   height: 140px;
   width: 100%;
   background: rgba(255, 255, 255, 0.9);
-  z-index: 2;
-}
+  z-index: 2; }
 
 .menu {
   padding: 0 160px;
   overflow: hidden;
-  list-style: none;
-}
+  list-style: none; }
 
 .menuItem {
   float: left;
@@ -168,22 +129,30 @@ header {
   text-align: left;
   text-transform: uppercase;
   letter-spacing: 0.125em;
-  font-weight: 400;
-}
+  font-weight: 400; }
 
 .menuItem:nth-of-type(n+4) {
-  text-align: right;
-}
+  text-align: right; }
 
-.headertitle {
+.breadcrumbs {
   float: left;
   height: 100px;
   margin: 0 0 0 160px;
+  padding: 0;
   line-height: 80px;
   font-size: 32px;
-  letter-spacing: 0.0625em;
   font-weight: 300;
-}
+  letter-spacing: 0.0625em;
+  list-style: none; }
+
+.breadcrumb {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  pointer: default; }
+
+.breadcrumb.active, .breadcrumb:hover {
+  color: #fe377a; }
 
 #user {
   float: right;
@@ -191,8 +160,7 @@ header {
   line-height: 80px;
   font-size: 24px;
   letter-spacing: 0.0625em;
-  font-weight: 300;
-}
+  font-weight: 300; }
 
 .menuButton {
   position: absolute;
@@ -200,303 +168,106 @@ header {
   top: 10px;
   height: 80px;
   width: 80px;
-  margin: 0 -40px;
-  background: pink;
-}
+  margin: 0 -40px; }
 
 .recipeName {
-  color: #202020;
-}
+  color: #202020; }
 
 .recipeAuthor {
+  color: #202020; }
+
+.zen {
+  float: left;
+  width: 480px; }
+
+.sauceDetail-zen {
+  float: left;
+  width: 32%;
+  margin: 0 8%; }
+
+.sauceDetail-info {
+  float: left;
+  width: 36%;
+  margin: 20px 8%; }
+
+.sauceDetail-comments {
+  width: 40em;
+  margin: 0 auto; }
+
+.sauceDetail-comment {
+  width: 40em;
+  margin: 20px 0; }
+
+.sauceDetail-commentBody {
   color: #202020;
-}
-
-.recipe:hover .recipeAuthor {
-  display: block;
-}
-
-.ingredient {
-  width: 120px;
-  height: 120px;
-  margin: 10px;
-}
-
-.ingredientName {
   font-size: 16px;
-  line-height: 20px;
-}
+  font-weight: 300;
+  text-justify: justify;
+  letter-spacing: 0.0625em; }
+
+.sauceDetail-commentAuthor {
+  float: left;
+  margin-top: 0.5em;
+  color: #646464;
+  font-size: 16px;
+  font-weight: 100;
+  letter-spacing: 0.0625em; }
+
+.sauceDetail-commentTime {
+  float: right;
+  margin-top: 0.5em;
+  color: #646464;
+  font-size: 16px;
+  font-weight: 100;
+  letter-spacing: 0.0625em; }
+
+.sauceDetail-photo {
+  background-position: center;
+  background-size: 320px auto; }
+
+.sauceDetail-photoAuthor {
+  color: white; }
+
+.sauceDetail-overlay {
+  display: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5); }
+
+.sauceDetail-photo:hover .sauceDetail-overlay {
+  display: block; }
 
 .photo {
   background-position: center;
-  background-size: 320px auto;
-}
+  background-size: 320px auto; }
 
 .photoName {
-  color: white;
-}
+  color: white; }
 
 .photoAuthor {
-  color: white;
-}
+  color: white; }
 
 .overlay {
   display: none;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.5);
-}
+  background: rgba(0, 0, 0, 0.5); }
 
 .photo:hover .overlay {
-  display: block;
-}
+  display: block; }
 
 .user {
   background-position: center;
-  background-size: 240px auto;
-}
+  background-size: 240px auto; }
 
 .userName:before {
-  content: "";
-}
+  content: ''; }
 
 .userName {
-  color: white;
-}
+  color: white; }
 
 .overlay {
   display: none;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.5);
-}
+  background: rgba(0, 0, 0, 0.5); }
 
 .user:hover .overlay {
-  display: block;
-}
-
-.labList h3 {
-  font-size: 24px;
-  line-height: 1.6em;
-  margin: 0 0 0.5em;
-  font-weight: 300;
-  letter-spacing: 0.0625em;
-}
-.labList p {
-  text-align: justify;
-  font-size: 18px;
-  line-height: 1.6em;
-  margin: 0.5em 0;
-}
-.labList .labIcon {
-  float: left;
-  background: hotpink;
-  background-size: 260px 240px;
-  background-position: center;
-}
-.labList .lab:nth-child(even) .labIcon {
-  margin-right: 40px;
-}
-.labList .lab:nth-child(odd) .labIcon {
-  float: right;
-  margin-left: 40px;
-}
-
-.event {
-  background-position: center;
-  background-size: auto 240px;
-}
-
-.eventName {
-  color: white;
-}
-
-.eventDate {
-  color: white;
-}
-
-.overlay {
-  display: none;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.event.current .overlay,
-.event:hover .overlay {
-  display: block;
-}
-
-#sauce {
-  float: left;
-  width: 600px;
-  height: 600px;
-  margin-left: 60px;
-}
-#sauce line.link {
-  stroke: #999999;
-  stroke-opacity: 0.6;
-}
-
-#source {
-  float: right;
-  width: 320px;
-  margin-right: 80px;
-}
-
-fieldset {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  border: none;
-}
-
-.add,
-.remove {
-  width: 1.6em;
-  height: 1.6em;
-  margin: 1.2em 0.1em 0;
-  line-height: 1.6em;
-  font-size: 1.9em;
-  outline: none;
-  border: none;
-  background: none;
-  color: #202020;
-}
-
-.save,
-.create {
-  margin: 0;
-  padding: 0;
-  line-height: 1.6em;
-  font-size: 1.6em;
-  letter-spacing: 0.0625em;
-  font-weight: 300;
-  background: none;
-  border: none;
-  font-family: "Source Sans Pro", sans-serif;
-}
-
-.save {
-  float: right;
-}
-
-.text,
-.name {
-  float: left;
-  padding: 0.25em;
-  line-height: 1.6em;
-  border: solid silver 1px;
-  box-sizing: border-box;
-}
-
-.name {
-  margin: 1.2em 0 0.6em;
-  clear: both;
-  width: 72%;
-  font-size: 20px;
-}
-
-.text {
-  clear: both;
-  width: 100%;
-  height: 20em;
-  font-size: 14px;
-}
-
-#hover {
-  position: absolute;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.8);
-  display: none;
-  font-size: 20px;
-  line-height: 1.2em;
-}
-
-.aboutList h3 {
-  font-size: 24px;
-  line-height: 1.6em;
-  margin: 0 0 0.5em;
-  font-weight: 300;
-  letter-spacing: 0.0625em;
-}
-.aboutList p {
-  text-align: justify;
-  font-size: 18px;
-  line-height: 1.6em;
-  margin: 0.5em 0;
-}
-.aboutList .aboutItemIcon {
-  float: left;
-  background: hotpink;
-  background-size: 260px 240px;
-  background-position: center;
-}
-.aboutList .aboutItem:nth-child(odd) .aboutItemIcon {
-  margin-right: 40px;
-}
-.aboutList .aboutItem:nth-child(even) .aboutItemIcon {
-  float: right;
-  margin-left: 40px;
-}
-.aboutList .link {
-  width: 120px;
-  height: 120px;
-  margin: 20px 10px;
-  background: hotpink;
-}
-.aboutList .linkName:before {
-  content: "";
-}
-.aboutList .linkName {
-  font-size: 18px;
-  color: white;
-}
-
-.ingredient {
-  width: 60px;
-  height: 60px;
-  margin: 10px;
-}
-
-.ingredientName {
-  font-size: 14px;
-  line-height: 18px;
-}
-
-.labHeader {
-  height: 64px;
-}
-.labHeader #home {
-  height: 64px;
-  margin: 0 0 0 80px;
-  line-height: 64px;
-}
-.labHeader #user {
-  margin: 0 80px 0 0;
-  line-height: 64px;
-}
-
-#labContent {
-  width: 640px;
-  margin: 76px auto 0;
-}
-
-.labInput {
-  width: 240px;
-  margin: 0 12px;
-  padding: 0 6px;
-  outline: none;
-  border: none;
-  border-bottom: 1px pink solid;
-  font-family: "Source Sans Pro", sans-serif;
-  font-size: 24px;
-  font-weight: 300;
-  letter-spacing: 0.0625em;
-  text-align: right;
-}
-
-.labInput.ng-invalid {
-  border-bottom: 1px red solid;
-}
-
-circle.ingredient {
-  stroke-width: 4px;
-}
+  display: block; }

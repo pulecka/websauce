@@ -1,11 +1,37 @@
 angular.module('opensauce.services', [])
     .value('version', '0.1')
     .factory('Ingredient', ['$resource', function($resource) {
-        var Ingredient = $resource('http://www.opensauce.cz/api/ingredient/:name', {}, {});
+        var Ingredient = $resource('http://localhost:3000/api/ingredient/:name', {}, {});
         return Ingredient;
     }])
     .factory('Recipe', ['$resource', function($resource) {
-        var Recipe = $resource('http://www.opensauce.cz/api/recipe/:name', {}, {});
+        // var recipeUrl = 'http://localhost:3000/api/recipe/:name',
+        var recipeUrl = 'http://www.opensauce.cz/api/recipe/:name',
+            Recipe = $resource(recipeUrl, {}, {
+            comments: { 
+                method: 'GET', 
+                url: recipeUrl + '/comments',
+                isArray: true 
+            },
+            photos: { 
+                method: 'GET', 
+                url: recipeUrl + '/photos',
+                isArray: true 
+            },
+            forks: { 
+                method: 'GET', 
+                url: recipeUrl + '/forks',
+                isArray: true 
+            } 
+        });
+        return Recipe;
+    }])
+    .factory('Photo', ['$resource', function($resource) {
+        var Ingredient = $resource('http://localhost:3000/api/photo/:name', {}, {});
+        return Ingredient;
+    }])
+    .factory('User', ['$resource', function($resource) {
+        var Recipe = $resource('http://localhost:3000/api/user/:name', {}, {});
         return Recipe;
     }])
     .service('RecipeMaker', function() {
@@ -54,13 +80,25 @@ angular.module('opensauce.services', [])
             drawNodes();
         }
 
-        function initNodes() {
+        function initNodes(ingredients) {
             nodes = [{
                 ingredient: 0,
                 radius: 1,
                 color: 'transparent',
                 hue: 0
             }];
+
+            var amount = ingredients.length ? Math.round(480 / ingredients.length) : 0;
+            $.each(ingredients, function (index, ingredient) {
+                nodes = nodes.concat(d3.range(amount).map(function() {
+                    return {
+                        ingredient: ingredient.id,
+                        radius: 4,
+                        color: ingredient.color,
+                        hue: d3.rgb(ingredient.color).hsl().h
+                    };
+                }));
+            });
         }
 
         function setNodes(ingredient, amount) {
@@ -71,7 +109,7 @@ angular.module('opensauce.services', [])
 
             $.each(nodes, function (index, node) {
                 if (node.ingredient == id) {
-                    ingredientNodes.push(index)
+                    ingredientNodes.push(index);
                 }
             });
 
@@ -87,7 +125,7 @@ angular.module('opensauce.services', [])
                 nodes = nodes.concat(d3.range(delta).map(function() {
                     return {
                         ingredient: id,
-                        radius: 6,
+                        radius: 5,
                         color: color,
                         hue: hue
                     };
@@ -100,12 +138,12 @@ angular.module('opensauce.services', [])
                 .start();
         }
 
-        function init(element, width, height) {
+        function init(element, width, height, ingredients) {
             svg = element;
             w = width;
             h = height;
 
-            initNodes();
+            initNodes(ingredients);
             drawNodes();
             bindNodes();
             initForce(0.04, -1000);
@@ -123,9 +161,9 @@ angular.module('opensauce.services', [])
                     var x = node.x - quad.point.x,
                         y = node.y - quad.point.y,
                         l = Math.sqrt(x * x + y * y),
-                        r = node.radius + ((node.ingredient % 10) / 4) * Math.random() + quad.point.radius;
+                        r = node.radius + (node.hue / 48) % 4 + 4 + quad.point.radius;
                     if (l < r) {
-                        l = (l - r) / l * .5;
+                        l = (l - r) / l * 0.5;
                         node.x -= x *= l;
                         node.y -= y *= l;
                         quad.point.x += x;
@@ -133,13 +171,13 @@ angular.module('opensauce.services', [])
                     }
                 }
                 return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
-            }
+            };
         }
 
         function initForce(gravity, charge) {
             force = d3.layout.force()
                 .gravity(gravity)
-                .charge(function (d, i) {return i == 0 ? charge : 0})
+                .charge(function (d, i) {return i === 0 ? charge : 0;})
                 .nodes(nodes)
                 .size([w, h]);
 
@@ -159,8 +197,8 @@ angular.module('opensauce.services', [])
                 }
 
                 svg.selectAll("circle.zen")
-                    .attr("cx", function (d) {return d.x})
-                    .attr("cy", function (d) {return d.y});
+                    .attr("cx", function (d) {return d.x;})
+                    .attr("cy", function (d) {return d.y;});
             });
             force.start();
         }
@@ -168,13 +206,13 @@ angular.module('opensauce.services', [])
         function drawNodes() {
             c = svg.selectAll("circle.zen")
                 .data(nodes)
-                .attr("r", function(d) {return d.radius})
-                .style("fill", function(d) {return d.color});
+                .attr("r", function(d) {return d.radius;})
+                .style("fill", function(d) {return d.color;});
 
             c.enter().append("svg:circle")
                 .attr("class", "zen")
-                .attr("r", function(d) {return d.radius})
-                .style("fill", function(d) {return d.color});
+                .attr("r", function(d) {return d.radius;})
+                .style("fill", function(d) {return d.color;});
 
             c.exit().remove();
         }
@@ -209,13 +247,13 @@ angular.module('opensauce.services', [])
 
         function chargeNodes(container, touch, index) {
             force.stop()
-                .charge(function (d) {return d.index == index ? -640 : 0});
+                .charge(function (d) {return d.index == index ? -640 : 0;});
 
             root.fixed = false;
             root = nodes[index];
             root.fixed = true;
 
-            if (index == 0) {
+            if (index === 0) {
                 var p1;
                 if (touch) {
                     p1 = d3.touches(container)[0];

@@ -1,6 +1,29 @@
-<header ng-include="'/template/header.html'"></header>
-<main id="content">
-<ul class="recipes">
-	<recipe recipe="recipe"></recipe>
+<div class="sauceDetail-zen zen" ingredients="recipe.ingredients">
+</div>
+<div class="sauceDetail-info">
+	<div class="sauceDetail-commentAuthor">{{recipe.account.name}}</div>
+	<div class="sauceDetail-commentTime">{{recipe.created_at | timeago}}</div>
+</div>
+
+<h3 class="sauceDetail-header">versions</h3>
+<ul class="sauceDetail-recipes">
+	<recipe ng-repeat="fork in forks" recipe="fork"></recipe>
 </ul>
-</main>
+
+<h3 class="sauceDetail-header">photos</h3>
+<ul class="sauceDetail-photos">
+	<li ng-repeat="photo in photos" class="sauceDetail-photo" style="background-image: url({{photo.image.url}})">
+		<div class="sauceDetail-overlay">
+			<div class="sauceDetail-photoAuthor">{{photo.account.name}}</div>
+		</div>
+	</li>
+</ul>
+
+<h3 class="sauceDetail-header">comments</h3>
+<ul class="sauceDetail-comments">
+	<li ng-repeat="comment in comments" class="sauceDetail-comment">
+		<div class="sauceDetail-commentBody">{{comment.body}}</div>
+		<div class="sauceDetail-commentAuthor">{{comment.account.name}}</div>
+		<div class="sauceDetail-commentTime">{{comment.created_at | timeago}}</div>
+	</li>
+</ul>

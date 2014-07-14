@@ -1,0 +1,80 @@
+.sauceDetail-zen {
+  float: left;
+  width: 32%;
+  margin: 0 8%;
+}
+
+.sauceDetail-info {
+  float: left;
+  width: 36%;
+  margin: 20px 8%;
+}
+
+.sauceDetail-header {
+	@extend %collectionHeader;
+}
+
+.sauceDetail-photos,
+.sauceDetail-recipes {
+  @extend %collection;
+}
+
+.sauceDetail-comments {
+  @extend %collection;
+  width: 40em;
+  margin: 0 auto;
+}
+
+.sauceDetail-comment {
+  @extend %collectionItem;
+  width: 40em;
+  margin: 20px 0;
+}
+
+.sauceDetail-commentBody {
+  color: #202020;
+  font-size: 16px;
+  font-weight: 300;
+  text-justify: justify;
+  letter-spacing: .0625em;
+}
+
+.sauceDetail-commentAuthor {
+  float: left;
+  margin-top: 0.5em;
+  color: #646464;
+  font-size: 16px;
+  font-weight: 100;
+  letter-spacing: .0625em;
+}
+
+.sauceDetail-commentTime {
+  float: right;
+  margin-top: 0.5em;
+  color: #646464;
+  font-size: 16px;
+  font-weight: 100;
+  letter-spacing: .0625em;
+}
+
+.sauceDetail-photo {
+  @extend %gridItem;
+  background-position: center;
+  background-size: 320px auto;
+}
+
+.sauceDetail-photoAuthor {
+  @extend %collectionItemTitle;
+  color: $textColorLight;
+}
+
+.sauceDetail-overlay {
+  @extend %collectionItemImage;
+  display: none;
+  border-radius: 50%;
+  background: $overlayDark;
+}
+
+.sauceDetail-photo:hover .sauceDetail-overlay {
+  display: block;
+}

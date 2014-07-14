@@ -1,16 +1,21 @@
 var gulp = require('gulp'),
-    sass = require('gulp-ruby-sass'),
+    sass = require('gulp-sass'),
     minifycss = require('gulp-minify-css'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
     clean = require('gulp-clean'),
     concat = require('gulp-concat'),
-    notify = require('gulp-notify');
+    notify = require('gulp-notify'),
+    neat = require('node-neat').includePaths;
 
 gulp.task('styles', function() {
-    return gulp.src('app/stylesheets/main.sass')
-        .pipe(sass({ style: 'expanded' }))
+    return gulp.src('app/stylesheets/main.scss')
+        .pipe(sass({
+            style: 'expanded',
+            includePaths: ['styles'].concat(neat),
+            errLogToConsole: true
+        }))
         .pipe(gulp.dest('public/style'))
         .pipe(rename({suffix: '.min'}))
         .pipe(minifycss())
@@ -52,7 +57,7 @@ gulp.task('default', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch('app/stylesheets/**/*.sass', ['styles']);
+    gulp.watch('app/stylesheets/**/*.scss', ['styles']);
     gulp.watch('app/javascripts/**/*.js', ['scripts']);
     gulp.watch('app/templates/**/*.html', ['templates']);
 });
