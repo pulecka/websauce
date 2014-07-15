@@ -7,9 +7,9 @@ angular.module('opensauce.controllers', []).
     }])
     .controller('SauceController', ['$scope', 'recipe', 'forks', 'photos', 'comments', 'Recipe', function($scope, recipe, forks, photos, comments, Recipe) {
         $scope.recipe = recipe;
-        $scope.forks = Recipe.forks({name: recipe.name});;
-        $scope.photos = Recipe.photos({name: recipe.name});;
-        $scope.comments = Recipe.comments({name: recipe.name});;
+        $scope.forks = Recipe.forks({name: recipe.name});
+        $scope.photos = Recipe.photos({name: recipe.name});
+        $scope.comments = Recipe.comments({name: recipe.name});
     }])
     .controller('GalleryController', ['$http', '$scope', 'Photo', function($http, $scope, Photo) {
         $scope.photos = Photo.query();

@@ -75,7 +75,7 @@ angular.module('opensauce', [
                     }
                 }
             })
-            .state('flavor', {
+            .state('flavors', {
                 parent: 'opensauce',
                 url: 'flavor',
                 views: {
@@ -85,13 +85,33 @@ angular.module('opensauce', [
                     }
                 }
             })
-            .state('user', {
+            .state('flavor', {
+                parent: 'flavors',
+                url: '/:name',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/flavor.html',
+                        controller: 'FlavorController'
+                    }
+                }
+            })
+            .state('users', {
                 parent: 'opensauce',
                 url: 'user',
                 views: {
                     'main@': {
                         templateUrl: '/template/users.html',
                         controller: 'UsersController'
+                    }
+                }
+            })
+            .state('user', {
+                parent: 'users',
+                url: '/:name',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/user.html',
+                        controller: 'UserController'
                     }
                 }
             })
@@ -150,9 +170,9 @@ angular.module('opensauce.controllers', []).
     }])
     .controller('SauceController', ['$scope', 'recipe', 'forks', 'photos', 'comments', 'Recipe', function($scope, recipe, forks, photos, comments, Recipe) {
         $scope.recipe = recipe;
-        $scope.forks = Recipe.forks({name: recipe.name});;
-        $scope.photos = Recipe.photos({name: recipe.name});;
-        $scope.comments = Recipe.comments({name: recipe.name});;
+        $scope.forks = Recipe.forks({name: recipe.name});
+        $scope.photos = Recipe.photos({name: recipe.name});
+        $scope.comments = Recipe.comments({name: recipe.name});
     }])
     .controller('GalleryController', ['$http', '$scope', 'Photo', function($http, $scope, Photo) {
         $scope.photos = Photo.query();
@@ -480,90 +500,53 @@ angular.module('opensauce.directives', [])
             }
         };
     })
-    .directive('recipe', function() {
+    .directive('recipeBackground', ['ZenCanvasFactory', function(ZenCanvasFactory) {
         return {
-            restrict: 'E',
-            replace: true,
+            restrict: 'C',
             scope: {
                 recipe: '='
             },
-            template: '<li class="recipe"><a ui-sref="detail({ name: recipe.name })"><div class="recipeName">{{recipe.title}}</div><div class="recipeAuthor">{{recipe.account.name}}</div></a><canvas class="recipeBackground"></canvas></li>',
             link: function(scope, element) {
-                var canvas = element.find('.recipeBackground')[0],
-                    context = canvas.getContext('2d'), width;
-                    width = element.outerWidth();
+                var canvas = element[0],
+                    width = element.outerWidth(),
+                    dotRadius = 3,
+                    zen = new ZenCanvasFactory();
 
-                element.outerHeight(width);
-                canvas.height = width;
-                canvas.width = width;
+                zen.init(canvas, width, width, dotRadius, []);
 
-                scope.$watch('recipe', function (newValue) {
-                    scope.recipe = newValue;
-                    if(scope.recipe.ingredients)
-                        initWheel();
-                });
-
-                function initWheel() {
-                    var dotRadius = 4,
-                        radius = width / 2 - dotRadius,
-                        ingredients = scope.recipe.ingredients,
-                        ingredientsLength = ingredients.length,
-                        previousIngredientRadius = 0, angle = 0;
-
-                    while (angle < 1.98 * Math.PI) {
-                        var ingredient = ingredients[parseInt(Math.random() * ingredientsLength)];
-
-                        angle += Math.asin((previousIngredientRadius + 6) / 200) + Math.asin((dotRadius + 6) / 200);
-                        context.beginPath();
-                        context.arc(radius * Math.sin(angle) + width / 2, radius * Math.cos(angle) + width / 2, dotRadius, 0, 2 * Math.PI, false);
-                        context.fillStyle = ingredient.color;
-                        context.fill();
-                        previousIngredientRadius = dotRadius;
+                scope.$watch('recipe', function (recipe) {
+                    scope.recipe = recipe;
+                    var ingredients = recipe.ingredients;
+                    if (ingredients.length) {
+                        zen.setColors(ingredients.map(function(ingredient) {
+                            return ingredient.color;
+                        }));
                     }
-                }
+                });
             }
         };
-    })
-    .directive('ingredient', function() {
+    }])
+    .directive('ingredientBackground', ['ZenCanvasFactory', function(ZenCanvasFactory) {
         return {
-            restrict: 'E',
-            replace: true,
+            restrict: 'C',
             scope: {
                 ingredient: '='
             },
-            template: '<li class="ingredient"><div class="ingredientNameBefore"></div><div class="ingredientName">{{ingredient.name}}</div></li>',
             link: function(scope, element) {
-                function hexToR(h) {
-                    return parseInt((cutHex(h)).substring(0,2),16);
-                }
+                var canvas = element[0],
+                    width = element.outerWidth(),
+                    dotRadius = 2,
+                    zen = new ZenCanvasFactory();
 
-                function hexToG(h) {
-                    return parseInt((cutHex(h)).substring(2,4),16);
-                }
+                zen.init(canvas, width, width, dotRadius, []);
 
-                function hexToB(h) {
-                    return parseInt((cutHex(h)).substring(4,6),16);
-                }
-
-                function cutHex(h) {
-                    return (h.charAt(0)=="#") ? h.substring(1,7):h;
-                }
-
-                scope.$watch("ingredient", function(ingredient) {
-                    var hex = ingredient.color;
-                    var r = hexToR(hex);
-                    var g = hexToG(hex);
-                    var b = hexToB(hex);
-                    var l = (r + g + b) / 3;
-                    console.log(hex);
-                    element.css({
-                        'backgroundColor': hex,
-                        'color': l < 144 ? 'white' : 'black'
-                    });
+                scope.$watch('ingredient', function (ingredient) {
+                    scope.ingredient = ingredient;
+                    zen.setColors([ingredient.color]);
                 });
             }
         };
-    })
+    }])
     .directive('wheel', ['ZenFactory', 'RecipeMaker', function(ZenFactory, RecipeMaker) {
         return {
             restrict: 'E',
@@ -829,7 +812,38 @@ angular.module('opensauce.filters', []).
             substitute(strings.years, Math.round(years), strings);
 
             return $.trim([prefix, words, suffix].join(separator));
-        }
+        };
+    })
+    .filter('diff', function() {
+        return function(fork, recipe) {
+            var recipeIngredients = recipe.ingredients,
+                forkIngredients = fork.ingredients,
+                addedIngredients, removedIngredients, diff;
+
+            addedIngredients = forkIngredients.filter(function(forkIngredient) {
+                return !recipeIngredients.some(function(recipeIngredient) {
+                    return forkIngredient.friendly == recipeIngredient.friendly;
+                });
+            });
+
+            removedIngredients = recipeIngredients.filter(function(recipeIngredient) {
+                return !forkIngredients.some(function(forkIngredient) {
+                    return recipeIngredient.friendly == forkIngredient.friendly;
+                });
+            });
+
+            if (addedIngredients.length) {
+                diff = 'with ' + addedIngredients.map(function(ingredient) {
+                    return ingredient.name;
+                }).join(' and ');
+            } else if (removedIngredients.length) {
+                diff = 'without ' + removedIngredients.map(function(ingredient) {
+                    return ingredient.name;
+                }).join(' and ');
+            }
+
+            return diff;
+        };
     });
 
 angular.module('opensauce.services', [])
@@ -839,8 +853,8 @@ angular.module('opensauce.services', [])
         return Ingredient;
     }])
     .factory('Recipe', ['$resource', function($resource) {
-        // var recipeUrl = 'http://localhost:3000/api/recipe/:name',
-        var recipeUrl = 'http://www.opensauce.cz/api/recipe/:name',
+        var recipeUrl = 'http://localhost:3000/api/recipe/:name',
+        //var recipeUrl = 'http://www.opensauce.cz/api/recipe/:name',
             Recipe = $resource(recipeUrl, {}, {
             comments: { 
                 method: 'GET', 
@@ -900,6 +914,53 @@ angular.module('opensauce.services', [])
         this.setTitle = function(newTitle) {
             title = newTitle;
         };
+    })
+    .factory('ZenCanvasFactory', function() {
+        var ZenCanvas = function() {
+            var h, w, dotRadius, canvas, context;
+
+            function init(element, width, height, radius, colors) {
+                canvas = element;
+                w = width;
+                h = height;
+                dotRadius = radius;
+
+                context = canvas.getContext('2d'), width;
+                canvas.height = width;
+                canvas.width = width;
+
+                if (colors.length) {
+                    setColors(colors);
+                }
+            }
+
+            function setColors(colors) {
+                var radius = w / 2 - dotRadius,
+                    colorsLength = colors.length,
+                    previousDotRadius = 0, angle = 0;
+
+                console.log(colors);
+
+                while (angle < 1.98 * Math.PI) {
+                    var color = colors[parseInt(Math.random() * colorsLength)];
+                    console.log(color);
+
+                    angle += Math.asin((previousDotRadius + 6) / 200) + Math.asin((dotRadius + 6) / 200);
+                    context.beginPath();
+                    context.arc(radius * Math.sin(angle) + w / 2, radius * Math.cos(angle) + w / 2, dotRadius, 0, 2 * Math.PI, false);
+                    context.fillStyle = color;
+                    context.fill();
+                    previousDotRadius = dotRadius;
+                }
+            }
+
+            return {
+                init: init,
+                setColors: setColors
+            }
+        }
+
+        return ZenCanvas;
     })
     .factory('ZenFactory', function() {
         var h, w, svg, c, root, nodes, force,

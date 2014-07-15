@@ -12,90 +12,53 @@ angular.module('opensauce.directives', [])
             }
         };
     })
-    .directive('recipe', function() {
+    .directive('recipeBackground', ['ZenCanvasFactory', function(ZenCanvasFactory) {
         return {
-            restrict: 'E',
-            replace: true,
+            restrict: 'C',
             scope: {
                 recipe: '='
             },
-            template: '<li class="recipe"><a ui-sref="detail({ name: recipe.name })"><div class="recipeName">{{recipe.title}}</div><div class="recipeAuthor">{{recipe.account.name}}</div></a><canvas class="recipeBackground"></canvas></li>',
             link: function(scope, element) {
-                var canvas = element.find('.recipeBackground')[0],
-                    context = canvas.getContext('2d'), width;
-                    width = element.outerWidth();
+                var canvas = element[0],
+                    width = element.outerWidth(),
+                    dotRadius = 3,
+                    zen = new ZenCanvasFactory();
 
-                element.outerHeight(width);
-                canvas.height = width;
-                canvas.width = width;
+                zen.init(canvas, width, width, dotRadius, []);
 
-                scope.$watch('recipe', function (newValue) {
-                    scope.recipe = newValue;
-                    if(scope.recipe.ingredients)
-                        initWheel();
-                });
-
-                function initWheel() {
-                    var dotRadius = 4,
-                        radius = width / 2 - dotRadius,
-                        ingredients = scope.recipe.ingredients,
-                        ingredientsLength = ingredients.length,
-                        previousIngredientRadius = 0, angle = 0;
-
-                    while (angle < 1.98 * Math.PI) {
-                        var ingredient = ingredients[parseInt(Math.random() * ingredientsLength)];
-
-                        angle += Math.asin((previousIngredientRadius + 6) / 200) + Math.asin((dotRadius + 6) / 200);
-                        context.beginPath();
-                        context.arc(radius * Math.sin(angle) + width / 2, radius * Math.cos(angle) + width / 2, dotRadius, 0, 2 * Math.PI, false);
-                        context.fillStyle = ingredient.color;
-                        context.fill();
-                        previousIngredientRadius = dotRadius;
+                scope.$watch('recipe', function (recipe) {
+                    scope.recipe = recipe;
+                    var ingredients = recipe.ingredients;
+                    if (ingredients.length) {
+                        zen.setColors(ingredients.map(function(ingredient) {
+                            return ingredient.color;
+                        }));
                     }
-                }
+                });
             }
         };
-    })
-    .directive('ingredient', function() {
+    }])
+    .directive('ingredientBackground', ['ZenCanvasFactory', function(ZenCanvasFactory) {
         return {
-            restrict: 'E',
-            replace: true,
+            restrict: 'C',
             scope: {
                 ingredient: '='
             },
-            template: '<li class="ingredient"><div class="ingredientNameBefore"></div><div class="ingredientName">{{ingredient.name}}</div></li>',
             link: function(scope, element) {
-                function hexToR(h) {
-                    return parseInt((cutHex(h)).substring(0,2),16);
-                }
+                var canvas = element[0],
+                    width = element.outerWidth(),
+                    dotRadius = 2,
+                    zen = new ZenCanvasFactory();
 
-                function hexToG(h) {
-                    return parseInt((cutHex(h)).substring(2,4),16);
-                }
+                zen.init(canvas, width, width, dotRadius, []);
 
-                function hexToB(h) {
-                    return parseInt((cutHex(h)).substring(4,6),16);
-                }
-
-                function cutHex(h) {
-                    return (h.charAt(0)=="#") ? h.substring(1,7):h;
-                }
-
-                scope.$watch("ingredient", function(ingredient) {
-                    var hex = ingredient.color;
-                    var r = hexToR(hex);
-                    var g = hexToG(hex);
-                    var b = hexToB(hex);
-                    var l = (r + g + b) / 3;
-                    console.log(hex);
-                    element.css({
-                        'backgroundColor': hex,
-                        'color': l < 144 ? 'white' : 'black'
-                    });
+                scope.$watch('ingredient', function (ingredient) {
+                    scope.ingredient = ingredient;
+                    zen.setColors([ingredient.color]);
                 });
             }
         };
-    })
+    }])
     .directive('wheel', ['ZenFactory', 'RecipeMaker', function(ZenFactory, RecipeMaker) {
         return {
             restrict: 'E',

@@ -17,9 +17,9 @@
 
 .recipeBackground {
   @extend %collectionItemImage;
+  z-index: -1;
 }
 
-.zen {
-  float: left;
-  width: 480px;
+.recipeLink {
+	@extend %collectionItemLink
 }

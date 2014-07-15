@@ -1,6 +1,9 @@
-<header ng-include="'/template/header.html'"></header>
-<main id="content">
-    <ul class="ingredients">
-        <ingredient ng-repeat="ingredient in ingredients" ingredient="ingredient"></ingredient>
-    </ul>
-</main>
+<ul class="ingredients">
+	<li class="ingredient" ng-repeat="ingredient in ingredients">
+		<a class="ingredientLink" ui-sref="flavor({name: ingredient.name})">
+			<span class="ingredientNameBefore"></span>
+			<span class="ingredientName">{{ingredient.name}}</span>
+		</a>
+		<canvas class="ingredientBackground" ingredient="ingredient"></canvas>
+	</li>
+</ul>

@@ -75,7 +75,7 @@ angular.module('opensauce', [
                     }
                 }
             })
-            .state('flavor', {
+            .state('flavors', {
                 parent: 'opensauce',
                 url: 'flavor',
                 views: {
@@ -85,13 +85,33 @@ angular.module('opensauce', [
                     }
                 }
             })
-            .state('user', {
+            .state('flavor', {
+                parent: 'flavors',
+                url: '/:name',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/flavor.html',
+                        controller: 'FlavorController'
+                    }
+                }
+            })
+            .state('users', {
                 parent: 'opensauce',
                 url: 'user',
                 views: {
                     'main@': {
                         templateUrl: '/template/users.html',
                         controller: 'UsersController'
+                    }
+                }
+            })
+            .state('user', {
+                parent: 'users',
+                url: '/:name',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/user.html',
+                        controller: 'UserController'
                     }
                 }
             })

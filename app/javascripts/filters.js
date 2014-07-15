@@ -63,5 +63,36 @@ angular.module('opensauce.filters', []).
             substitute(strings.years, Math.round(years), strings);
 
             return $.trim([prefix, words, suffix].join(separator));
-        }
+        };
+    })
+    .filter('diff', function() {
+        return function(fork, recipe) {
+            var recipeIngredients = recipe.ingredients,
+                forkIngredients = fork.ingredients,
+                addedIngredients, removedIngredients, diff;
+
+            addedIngredients = forkIngredients.filter(function(forkIngredient) {
+                return !recipeIngredients.some(function(recipeIngredient) {
+                    return forkIngredient.friendly == recipeIngredient.friendly;
+                });
+            });
+
+            removedIngredients = recipeIngredients.filter(function(recipeIngredient) {
+                return !forkIngredients.some(function(forkIngredient) {
+                    return recipeIngredient.friendly == forkIngredient.friendly;
+                });
+            });
+
+            if (addedIngredients.length) {
+                diff = 'with ' + addedIngredients.map(function(ingredient) {
+                    return ingredient.name;
+                }).join(' and ');
+            } else if (removedIngredients.length) {
+                diff = 'without ' + removedIngredients.map(function(ingredient) {
+                    return ingredient.name;
+                }).join(' and ');
+            }
+
+            return diff;
+        };
     });

@@ -5,8 +5,8 @@ angular.module('opensauce.services', [])
         return Ingredient;
     }])
     .factory('Recipe', ['$resource', function($resource) {
-        // var recipeUrl = 'http://localhost:3000/api/recipe/:name',
-        var recipeUrl = 'http://www.opensauce.cz/api/recipe/:name',
+        var recipeUrl = 'http://localhost:3000/api/recipe/:name',
+        //var recipeUrl = 'http://www.opensauce.cz/api/recipe/:name',
             Recipe = $resource(recipeUrl, {}, {
             comments: { 
                 method: 'GET', 
@@ -66,6 +66,53 @@ angular.module('opensauce.services', [])
         this.setTitle = function(newTitle) {
             title = newTitle;
         };
+    })
+    .factory('ZenCanvasFactory', function() {
+        var ZenCanvas = function() {
+            var h, w, dotRadius, canvas, context;
+
+            function init(element, width, height, radius, colors) {
+                canvas = element;
+                w = width;
+                h = height;
+                dotRadius = radius;
+
+                context = canvas.getContext('2d'), width;
+                canvas.height = width;
+                canvas.width = width;
+
+                if (colors.length) {
+                    setColors(colors);
+                }
+            }
+
+            function setColors(colors) {
+                var radius = w / 2 - dotRadius,
+                    colorsLength = colors.length,
+                    previousDotRadius = 0, angle = 0;
+
+                console.log(colors);
+
+                while (angle < 1.98 * Math.PI) {
+                    var color = colors[parseInt(Math.random() * colorsLength)];
+                    console.log(color);
+
+                    angle += Math.asin((previousDotRadius + 6) / 200) + Math.asin((dotRadius + 6) / 200);
+                    context.beginPath();
+                    context.arc(radius * Math.sin(angle) + w / 2, radius * Math.cos(angle) + w / 2, dotRadius, 0, 2 * Math.PI, false);
+                    context.fillStyle = color;
+                    context.fill();
+                    previousDotRadius = dotRadius;
+                }
+            }
+
+            return {
+                init: init,
+                setColors: setColors
+            }
+        }
+
+        return ZenCanvas;
     })
     .factory('ZenFactory', function() {
         var h, w, svg, c, root, nodes, force,

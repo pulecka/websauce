@@ -22,7 +22,7 @@ main {
   margin: 140px auto 20px;
   overflow: hidden; }
 
-.recipes, .sauceDetail-photos, .sauceDetail-recipes, .sauceDetail-comments, .photos, .users {
+.recipes, .sauceDetail-photos, .sauceDetail-recipes, .sauceDetail-comments, .ingredients, .photos, .users {
   width: 100%;
   margin: 0;
   padding: 0;
@@ -39,14 +39,14 @@ main {
   font-weight: 100;
   letter-spacing: 0.0625em; }
 
-.recipe, .sauceDetail-photo, .photo, .user, .sauceDetail-comment {
+.recipe, .sauceDetail-photo, .ingredient, .photo, .user, .sauceDetail-comment {
   display: inline-block;
   position: relative;
   margin: 20px;
   padding: 0;
   overflow: hidden; }
 
-.recipe, .sauceDetail-photo, .photo, .user {
+.recipe, .sauceDetail-photo, .ingredient, .photo, .user {
   width: 240px;
   height: 240px;
   border-radius: 50%; }
@@ -63,27 +63,31 @@ main {
       height: 160px;
       width: 160px; } }
 
-.recipe, .sauceDetail-photo, .photo, .user {
+.recipe, .sauceDetail-photo, .ingredient, .photo, .user {
   cursor: pointer; }
 
-.userName, .recipeName, .sauceDetail-photoAuthor, .photoName {
+.recipeLink, .ingredientLink {
+  display: block;
+  height: 100%; }
+
+.ingredientName, .userName, .recipeName, .sauceDetail-photoAuthor, .photoName {
   position: absolute;
   bottom: 48%;
-  left: 10%;
-  width: 80%;
+  left: 5%;
+  width: 90%;
   font-size: 20px;
   line-height: 1.2em;
   text-transform: lowercase;
   text-align: center;
   letter-spacing: 0.0625em; }
 
-.userName:before {
+.ingredientNameBefore, .userName:before {
   display: inline-block;
   height: 100%;
   vertical-align: middle;
   margin-right: -0.25em; }
 
-.userName {
+.ingredientName, .userName {
   position: static;
   display: inline-block;
   vertical-align: middle;
@@ -100,7 +104,7 @@ main {
   text-align: center;
   letter-spacing: 0.0625em; }
 
-.recipeBackground, .sauceDetail-overlay, .overlay, .overlay {
+.recipeBackground, .sauceDetail-overlay, .ingredientBackground, .overlay, .overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -176,9 +180,8 @@ header {
 .recipeAuthor {
   color: #202020; }
 
-.zen {
-  float: left;
-  width: 480px; }
+.recipeBackground {
+  z-index: -1; }
 
 .sauceDetail-zen {
   float: left;
@@ -235,6 +238,17 @@ header {
 
 .sauceDetail-photo:hover .sauceDetail-overlay {
   display: block; }
+
+.ingredient {
+  width: 160px;
+  height: 160px;
+  margin: 12px; }
+
+.ingredientName {
+  font-size: 1.5em; }
+
+.ingredientBackground {
+  z-index: -1; }
 
 .photo {
   background-position: center;

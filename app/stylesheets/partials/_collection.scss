@@ -58,11 +58,16 @@
   clear: both;
 }
 
+%collectionItemLink {
+  display: block;
+  height: 100%;
+}
+
 %collectionItemTitle {
   position: absolute;
   bottom: 48%;
-  left: 10%;
-  width: 80%;
+  left: 5%;
+  width: 90%;
   font-size: 20px;
   line-height: 1.2em;
   text-transform: lowercase;
