@@ -4,9 +4,7 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
-    clean = require('gulp-clean'),
     concat = require('gulp-concat'),
-    notify = require('gulp-notify'),
     neat = require('node-neat').includePaths;
 
 gulp.task('styles', function() {
@@ -45,11 +43,6 @@ gulp.task('templates', function() {
     return gulp.src('app/templates/*.html')
         .pipe(gulp.dest('public/template'))
         .pipe(notify({ message: 'Templates task complete' }));
-});
-
-gulp.task('clean', function() {
-    return gulp.src(['public/style', 'public/script', 'public/template'], {read: false})
-        .pipe(clean());
 });
 
 gulp.task('default', function() {
