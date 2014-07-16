@@ -1,5 +1,5 @@
 {
-	"name": "opensauce",
+  "name": "opensauce",
   "version": "0.1.0",
   "engines": {
     "node": "0.10.x"
@@ -9,10 +9,9 @@
     "postinstall": "bower install && gulp"
   },
   "dependencies": {
-    "express": "~3.4.8"
-  },
-  "devDependencies": {
-    "gulp": "^3.5.2",
+    "bower": "^1.3.8",
+    "express": "~3.4.8",
+    "gulp": "^3.8.6",
     "gulp-clean": "^0.2.4",
     "gulp-concat": "^2.1.7",
     "gulp-jshint": "^1.5.0",
