@@ -1,6 +1,13 @@
 {
-  "name": "opensauce",
+	"name": "opensauce",
   "version": "0.1.0",
+  "engines": {
+    "node": "0.10.x"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "postinstall": "bower install && gulp"
+  },
   "dependencies": {
     "express": "~3.4.8"
   },

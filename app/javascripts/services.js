@@ -77,7 +77,7 @@ angular.module('opensauce.services', [])
                 h = height;
                 dotRadius = radius;
 
-                context = canvas.getContext('2d'), width;
+                context = canvas.getContext('2d');
                 canvas.height = width;
                 canvas.width = width;
 
@@ -109,8 +109,8 @@ angular.module('opensauce.services', [])
             return {
                 init: init,
                 setColors: setColors
-            }
-        }
+            };
+        };
 
         return ZenCanvas;
     })
