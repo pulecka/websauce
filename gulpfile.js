@@ -17,8 +17,7 @@ gulp.task('styles', function() {
         .pipe(gulp.dest('public/style'))
         .pipe(rename({suffix: '.min'}))
         .pipe(minifycss())
-        .pipe(gulp.dest('public/style'))
-        .pipe(notify({ message: 'Styles task complete' }));
+        .pipe(gulp.dest('public/style'));
 });
 
 gulp.task('scripts', function() {
@@ -29,20 +28,17 @@ gulp.task('scripts', function() {
         .pipe(gulp.dest('public/script'))
         .pipe(rename({suffix: '.min'}))
         .pipe(uglify())
-        .pipe(gulp.dest('public/script'))
-        .pipe(notify({ message: 'Scripts task complete' }));
+        .pipe(gulp.dest('public/script'));
 });
 
 gulp.task('scripts_lib', function() {
     return gulp.src(['bower_components/jquery/dist/jquery.min.js', 'bower_components/angular/angular.min.js', 'bower_components/angular-resource/angular-resource.min.js', 'bower_components/angular-ui-router/release/angular-ui-router.min.js', 'bower_components/d3/d3.min.js'])
-        .pipe(gulp.dest('public/script/lib'))
-        .pipe(notify({ message: 'Vendor scripts task complete' }));
+        .pipe(gulp.dest('public/script/lib'));
 });
 
 gulp.task('templates', function() {
     return gulp.src('app/templates/*.html')
-        .pipe(gulp.dest('public/template'))
-        .pipe(notify({ message: 'Templates task complete' }));
+        .pipe(gulp.dest('public/template'));
 });
 
 gulp.task('default', function() {
