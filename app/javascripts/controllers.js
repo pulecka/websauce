@@ -18,9 +18,13 @@ angular.module('opensauce.controllers', [])
 				console.log(currentUser);
     	}, true);
 
+        	document.domain = location.host.replace(/^.*?([^.]+\.[^.]+)$/g,'$1');
+
+
     $scope.login = function() {
     	var loginWindow = window.open('http://www.opensauce.cz/auth/facebook', 'facebook', 'align=center,directories=no,height=560,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000');
     	loginWindow.focus();
+
 
     	loginWindow.beforeunload = function () {
 				console.log(loginWindow.authData);
