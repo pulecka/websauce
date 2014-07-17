@@ -339,7 +339,7 @@ angular.module('opensauce.services', [])
 
         return Zen;
     })
-    .factory('AuthenticationService', ['$window', function($window) {
+    .factory('AuthenticationService', ['$window', '$rootScope', function($window, $rootScope) {
         $window.authHelper = {
             saveUser: saveUser,
             saveToken: saveToken
@@ -352,12 +352,12 @@ angular.module('opensauce.services', [])
             };
 
         if ($window.localStorage.currentUser && $window.localStorage.currentUser !== 'null') {
-            currentUser = $window.localStorage.currentUser;
+            currentUser = JSON.parse($window.localStorage.currentUser);
         }
 
         function clearUser() {
             currentUser = null;   
-            $window.localStorage.currentUser = currentUser;
+            $window.localStorage.currentUser = null;
             $window.localStorage.token = null; 
         }
 
@@ -366,9 +366,9 @@ angular.module('opensauce.services', [])
         }
 
         function saveUser(user) {
-            console.log(user);
             currentUser = user;
-            $window.localStorage.currentUser = currentUser;  
+            $window.localStorage.currentUser = JSON.stringify(user);
+            $rootScope.$apply();
         }
 
         function saveToken(token) {
