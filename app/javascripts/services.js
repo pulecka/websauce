@@ -366,6 +366,7 @@ angular.module('opensauce.services', [])
         }
 
         function saveUser(user) {
+            console.log(user);
             currentUser = user;
             $window.localStorage.currentUser = currentUser;  
         }
