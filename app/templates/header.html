@@ -22,6 +22,6 @@
 <headertitle ng-class="{menuIsVisible: showMenu}"></headertitle>
 <h2 class="userInfo" ng-class="{menuIsVisible: showMenu}">
     <span class="languageChange" ng-click="changeLanguage('en')">en</span>:<span class="languageChange" ng-click="changeLanguage('cz')">cz</span>
-    <a class="login" href="javascript:var facebookConnectLoginWindow = window.open('http://www.opensauce.cz/auth/facebook','facebook', 'align=center,directories=no,height=560,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000'); void(''); facebookConnectLoginWindow.focus();" ng-if="!currentUser">{{'login' | translate}}</a>
+    <a class="login" ng-click="login()" ng-if="!currentUser">{{'login' | translate}}</a>
     <a class="currentUser" ui-sref="users" ng-if="currentUser">{{currentUser.name}}</a>
 </h2>

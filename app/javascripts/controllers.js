@@ -17,6 +17,15 @@ angular.module('opensauce.controllers', [])
 				$scope.currentUser = currentUser;
 				console.log(currentUser);
     	}, true);
+
+    $scope.login = function() {
+    	var loginWindow = window.open('http://www.opensauce.cz/auth/facebook', 'facebook', 'align=center,directories=no,height=560,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000');
+    	loginWindow.focus();
+
+    	loginWindow.beforeunload = function () {
+				console.log(loginWindow.authData);
+			}
+		}
 	}])
 	.controller('HomeController', ['$scope', 'recipes', function($scope, recipes) {
 		$scope.recipes = recipes;
