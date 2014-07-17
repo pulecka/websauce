@@ -1,12 +1,13 @@
 angular.module('opensauce', [
         'ngResource',
+        'pascalprecht.translate',
         'ui.router',
         'opensauce.filters',
         'opensauce.services',
         'opensauce.directives',
         'opensauce.controllers'
     ])
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function($stateProvider, $urlRouterProvider, $locationProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$translateProvider', '$httpProvider', function($stateProvider, $urlRouterProvider, $locationProvider, $translateProvider, $httpProvider) {
 
         $urlRouterProvider.otherwise('/');
 
@@ -15,7 +16,8 @@ angular.module('opensauce', [
                 url: '/',
                 views: {
                     'header@': {
-                        templateUrl: '/template/header.html'
+                        templateUrl: '/template/header.html',
+                        controller: 'HeaderController'
                     },
                     'main@': {
                         templateUrl: '/template/home.html',
@@ -157,6 +159,32 @@ angular.module('opensauce', [
             });
     
         $locationProvider.html5Mode(true).hashPrefix('!');
-    }])
 
-    ;
+        $translateProvider
+            .translations('en', {
+                sauces: 'sauces',
+                flavors: 'flavors',
+                photos: 'gallery',
+                users: 'users',
+                labs: 'labs',
+                about: 'about',
+                login: 'login'
+            })
+            .translations('cz', {
+                sauces: 'omáčky',
+                flavors: 'přísady',
+                photos: 'galerie',
+                users: 'uživatelé',
+                labs: 'stánky',
+                about: 'o nás',
+                login: 'přihlášení'
+            });
+
+        $translateProvider.preferredLanguage('cz');
+
+        $httpProvider.interceptors.push('AuthInterceptor');
+
+ 
+    }]);
+
+    

@@ -27,6 +27,7 @@
     "jquery": "~2.1.0",
     "timbre.js": "mohayonao/timbre.js",
     "angular-resource": "~1.2.16",
-    "angular-ui-router": "~0.2.10"
+    "angular-ui-router": "~0.2.10",
+    "angular-translate": "~2.2.0"
   }
 }

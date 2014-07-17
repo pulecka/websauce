@@ -1,0 +1,84 @@
+.aboutList {
+  @extend %collection;
+}
+
+.aboutList h3 {
+  font-size: 24px;
+  line-height: 1.6em;
+  margin: 0 0 0.5em;
+  font-weight: 300;
+  letter-spacing: 0.0625em;
+}
+
+.aboutList p {
+  text-align: justify;
+  font-size: 18px;
+  line-height: 1.6em;
+  margin: 0.5em 0;
+}
+
+.aboutItem {
+  @extend %listItem;
+}
+
+.aboutItemIcon {
+  @extend %circleItem;
+  float: left;
+  background-size: 260px 240px;
+  background-position: center;
+}
+
+.aboutItem:nth-child(odd) .aboutItemIcon {
+  margin-right: 40px;
+}
+
+.aboutItem:nth-child(even) .aboutItemIcon {
+  float: right;
+  margin-left: 40px;
+}
+
+.link {
+  @extend %gridItem;
+  width: 80px;
+  height: 80px;
+  margin: 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.link.twitter {
+  background-color: #55ACEE;
+  background-image: url('/image/twitter.svg');
+  background-size: 50%;
+}
+
+.link.blog {
+  background-color: #314358;
+  background-image: url('/image/tumblr.svg');
+  background-size: 80%;
+}
+
+.link.facebook {
+  background-color: #3C5A99;
+  background-image: url('/image/facebook.svg');
+  background-size: 76%;
+  background-position: center;
+}
+
+.link.youtube {
+  background-color: #D82B2F;
+  background-image: url('/image/youtube.svg');
+  background-size: 100%;
+  background-position: center;
+}
+  
+.linkName:before {
+  @extend %collectionItemTitleCenteredBefore;
+  content: '';
+}
+
+.linkName {
+  @extend %collectionItemTitleCentered;
+  font-size: 18px;
+  //color: $textColorLight;
+}

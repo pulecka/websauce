@@ -34,6 +34,10 @@ angular.module('opensauce.services', [])
         var Recipe = $resource('http://localhost:3000/api/user/:name', {}, {});
         return Recipe;
     }])
+    .factory('About', ['$resource', function($resource) {
+        var About = $resource('http://localhost:3000/api/about', {}, {});
+        return About;
+    }])
     .service('RecipeMaker', function() {
         var ingredients = [], title = '';
 
@@ -91,11 +95,8 @@ angular.module('opensauce.services', [])
                     colorsLength = colors.length,
                     previousDotRadius = 0, angle = 0;
 
-                console.log(colors);
-
                 while (angle < 1.98 * Math.PI) {
                     var color = colors[parseInt(Math.random() * colorsLength)];
-                    console.log(color);
 
                     angle += Math.asin((previousDotRadius + 6) / 200) + Math.asin((dotRadius + 6) / 200);
                     context.beginPath();
@@ -337,5 +338,66 @@ angular.module('opensauce.services', [])
         }
 
         return Zen;
-    });
+    })
+    .factory('AuthenticationService', ['$window', function($window) {
+        $window.authHelper = {
+            saveUser: saveUser,
+            saveToken: saveToken
+        };
+
+        var currentUser,
+            auth = {
+                getCurrentUser: getCurrentUser,
+                clearUser: clearUser
+            };
+
+        if ($window.localStorage.currentUser && $window.localStorage.currentUser !== 'null') {
+            currentUser = $window.localStorage.currentUser;
+        }
+
+        function clearUser() {
+            currentUser = null;   
+            $window.localStorage.currentUser = currentUser;
+            $window.localStorage.token = null; 
+        }
+
+        function getCurrentUser() {
+            return currentUser;
+        }
+
+        function saveUser(user) {
+            currentUser = user;
+            $window.localStorage.currentUser = currentUser;  
+        }
+
+        function saveToken(token) {
+            $window.localStorage.token = token;
+        }
+
+        return auth;
+    }])
+    .factory('AuthInterceptor', ['$q', '$window', 'AuthenticationService', function ($q, $window, AuthenticationService) {
+        return {
+            request: function (config) {
+                config.headers = config.headers || {};
+                if ($window.localStorage.token && $window.localStorage.token !== 'null') {
+                    config.headers.Authorization = 'Bearer ' + $window.localStorage.token;
+                }
+                return config;
+            },
+ 
+            response: function(response){
+                if (response.status === 401 || response.status === 403) {
+                    AuthenticationService.clearUser();
+                }
+                return response || $q.when(response);
+            },
+            responseError: function(rejection) {
+                if (rejection.status === 401 || rejection.status === 403) {
+                    AuthenticationService.clearUser();
+                }
+                return $q.reject(rejection);
+            }
+        };
+    }]);
 

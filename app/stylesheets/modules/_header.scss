@@ -1,13 +1,14 @@
 header {
   position: fixed;
   top: 0;
-  height: 140px;
+  height: 80px;
   width: 100%;
   background: $overlayLight;
   z-index: 2;
 }
 
-.menu {
+menu {
+  margin: 0;
   padding: 0 160px;
   overflow: hidden;
   list-style: none;
@@ -16,13 +17,13 @@ header {
 .menuItem {
   float: left;
   width: 16.66%;
-  height: 40px;
-  line-height: 40px;
-  font-size: 16px;
+  height: 32px;
+  line-height: 32px;
+  font-size: 1.2em;
   text-align: left;
   text-transform: uppercase;
   letter-spacing: 0.125em;
-  font-weight: 400;
+  font-weight: 300;
 }
 
 .menuItem:nth-of-type(n+4) {
@@ -31,14 +32,19 @@ header {
 
 .breadcrumbs {
   float: left;
-  height: 100px;
+  height: 80px;
   margin: 0 0 0 160px;
   padding: 0;
   line-height: 80px;
-  font-size: 32px;
+  font-size: 2em;
   font-weight: 300;
   letter-spacing: 0.0625em;
   list-style: none;
+}
+
+.breadcrumbs.menuIsVisible {
+  height: 44px;
+  line-height: 44px;
 }
 
 .breadcrumb {
@@ -53,21 +59,31 @@ header {
   color: rgb(254, 55, 122);
 }
 
-#user {
+.userInfo {
   float: right;
   margin: 0 160px 0 0;
   line-height: 80px;
-  font-size: 24px;
   letter-spacing: 0.0625em;
-  font-weight: 300;
+  font-size: 1em;
+  font-weight: 200;
+}
+
+.userInfo.menuIsVisible {
+  line-height: 44px;
+}
+
+.login {
+  margin-left: 1em;
+  font-size: 1.8em;
 }
 
 .menuButton {
   position: absolute;
   left: 50%;
-  top: 10px;
-  height: 80px;
-  width: 80px;
-  margin: 0 -40px;
-  // background: pink;
+  top: 0;
+  height: 32px;
+  width: 64px;
+  margin: 0 -32px;
+  background: pink;
+  border: none;
 }

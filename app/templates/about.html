@@ -1,54 +1,15 @@
-<header ng-include="'/template/header.html'"></header>
-<main id="content">
     <ul class="aboutList">
-        <li class="aboutItem">
-            <div class="aboutItemIcon" style="background-image: url(https://opensauce.s3.amazonaws.com/images/re3.jpg)"></div>
-            <h3 class="aboutItemTitle">opensauce - technologically mediated sauce</h3>
-        <span class="aboutItemDescription">
-            <p>Opensauce is an open source recipe platform, which allows the HotKarot cravers to program the sauces according to their personal taste. The interface allows virtually anyone to join the HotKarot & OpenSauce project, create new sauces and rate or even edit the already existing ones.</p>
-            <p>However, it's not just a mere recipe book what we have here, as the recipe creation occurs in a kind of multi-sensorial style. Every ingredient in the OpenSauce archive is assigned with a unique color and sound value, and the way of thinking about food therefore enters a wholly new level of complexity.</p>
-        </span>
+        <li class="aboutItem" ng-repeat="aboutSection in about">
+            <div class="aboutItemIcon" style="background-image: url({{aboutSection.image}})"></div>
+            <h3 class="aboutItemTitle">{{aboutSection.title | contentTranslate}}</h3>
+            <span class="aboutItemDescription"><p>{{aboutSection.description | contentTranslate}}</p></span>
         </li>
-        <li class="aboutItem">
-            <div class="aboutItemIcon" style="background-image: url(http://www.hotkarot.cz/images/7.jpg)"></div>
-            <h3 class="aboutItemTitle">hotkarot - technologically mediated carrot</h3>
-        <span class="aboutItemDescription">
-            <p>Opensauce is an open source recipe platform, which allows the HotKarot cravers to program the sauces according to their personal taste. The interface allows virtually anyone to join the HotKarot & OpenSauce project, create new sauces and rate or even edit the already existing ones.</p>
-            <p>However, it's not just a mere recipe book what we have here, as the recipe creation occurs in a kind of multi-sensorial style. Every ingredient in the OpenSauce archive is assigned with a unique color and sound value, and the way of thinking about food therefore enters a wholly new level of complexity.</p>
-        </span>
+        <li class="link blog">
         </li>
-        <li class="aboutItem">
-            <div class="aboutItemIcon" style="background-image: url(http://www.hotkarot.cz/images/header.jpg)"></div>
-            <h3 class="aboutItemTitle">cancel - technologically mediated group</h3>
-        <span class="aboutItemDescription">
-            <p>Opensauce is an open source recipe platform, which allows the HotKarot cravers to program the sauces according to their personal taste. The interface allows virtually anyone to join the HotKarot & OpenSauce project, create new sauces and rate or even edit the already existing ones.</p>
-            <p>However, it's not just a mere recipe book what we have here, as the recipe creation occurs in a kind of multi-sensorial style. Every ingredient in the OpenSauce archive is assigned with a unique color and sound value, and the way of thinking about food therefore enters a wholly new level of complexity.</p>
-        </span>
+        <li class="link twitter">
         </li>
-        <li class="link">
-            <div class="linkName">hotkarot</div>
+        <li class="link facebook">
         </li>
-        <li class="link">
-            <div class="linkName">blog</div>
-        </li>
-        <li class="link">
-            <div class="linkName">twitter</div>
-        </li>
-        <li class="link">
-            <div class="linkName">facebook</div>
-        </li>
-        <li class="link">
-            <div class="linkName">youtube</div>
-        </li>
-        <li class="link">
-            <div class="linkName">vimeo</div>
-        </li>
-        <li class="link">
-            <div class="linkName">soundcloud</div>
-        </li>
-        <li class="link">
-            <div class="linkName">laguna</div>
+        <li class="link youtube">
         </li>
     </ul>
-</main>
-

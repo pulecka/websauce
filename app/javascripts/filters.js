@@ -95,4 +95,10 @@ angular.module('opensauce.filters', []).
 
             return diff;
         };
-    });
+    })
+    .filter('contentTranslate', ['$translate', function($translate) {
+        return function(content) {
+            var translatedContent = content[$translate.use()];
+            return translatedContent;
+        };
+    }]);

@@ -1,7 +1,26 @@
-angular.module('opensauce.controllers', []).
-    controller('HomeController', ['$scope', 'recipes', function($scope, recipes) {
-        $scope.recipes = recipes;
-    }])
+angular.module('opensauce.controllers', [])
+	.controller('HeaderController', ['$scope', '$translate', 'AuthenticationService', function($scope, $translate, AuthenticationService) {
+		var auth = AuthenticationService;
+		$scope.showMenu = false;
+		$scope.toggleMenu = function() {
+			$scope.showMenu = !$scope.showMenu;
+		};
+
+		$scope.changeLanguage = function (langKey) {
+    	$translate.use(langKey);
+  	};
+
+    $scope.$watch(function () {
+    		return AuthenticationService.getCurrentUser();
+    	},                       
+    	function(currentUser) {
+				$scope.currentUser = currentUser;
+				console.log(currentUser);
+    	}, true);
+	}])
+	.controller('HomeController', ['$scope', 'recipes', function($scope, recipes) {
+		$scope.recipes = recipes;
+	}])
     .controller('SaucesController', ['$scope', 'recipes', function($scope, recipes) {
         $scope.recipes = recipes;
     }])
@@ -320,5 +339,6 @@ $scope.stories = [{title: "", text: "", ingredients: []}];
             });
         };
     }])
-    .controller('AboutController', ['$http', '$scope', function($http, $scope) {
+    .controller('AboutController', ['About', '$scope', function(About, $scope) {
+    	$scope.about = About.query();
     }]);
