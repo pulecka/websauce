@@ -1,7 +1,7 @@
 angular.module('opensauce.services', [])
     .value('version', '0.1')
     .factory('Ingredient', ['$resource', function($resource) {
-        var Ingredient = $resource('http://localhost:3000/api/ingredient/:name', {}, {});
+        var Ingredient = $resource('http://www.opensauce.cz/api/ingredient/:name', {}, {});
         return Ingredient;
     }])
     .factory('Recipe', ['$resource', function($resource) {
