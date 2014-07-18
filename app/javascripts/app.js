@@ -137,16 +137,6 @@ angular.module('opensauce', [
                     }
                 }
             })
-            .state('armageddon', {
-                parent: 'lab',
-                url: '/armageddon',
-                views: {
-                    'main@': {
-                        templateUrl: '/template/armageddon.html',
-                        controller: 'ArmageddonController'
-                    }
-                }
-            })
             .state('about', {
                 parent: 'opensauce',
                 url: 'about',
@@ -184,7 +174,7 @@ angular.module('opensauce', [
 
         $httpProvider.interceptors.push('AuthInterceptor');
 
-        document.domain = location.host.replace(/^.*?([^.]+\.[^.]+)$/g,'$1');
+        //document.domain = location.host.replace(/^.*?([^.]+\.[^.]+)$/g,'$1');
     }]);
 
     

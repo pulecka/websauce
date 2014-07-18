@@ -8,22 +8,22 @@ angular.module('opensauce.services', [])
         //var recipeUrl = 'http://localhost:3000/api/recipe/:name',
         var recipeUrl = 'http://www.opensauce.cz/api/recipe/:name',
             Recipe = $resource(recipeUrl, {}, {
-            comments: { 
-                method: 'GET', 
-                url: recipeUrl + '/comments',
-                isArray: true 
-            },
-            photos: { 
-                method: 'GET', 
-                url: recipeUrl + '/photos',
-                isArray: true 
-            },
-            forks: { 
-                method: 'GET', 
-                url: recipeUrl + '/forks',
-                isArray: true 
-            } 
-        });
+                comments: { 
+                    method: 'GET', 
+                    url: recipeUrl + '/comments',
+                    isArray: true 
+                },
+                photos: { 
+                    method: 'GET', 
+                    url: recipeUrl + '/photos',
+                    isArray: true 
+                },
+                forks: { 
+                    method: 'GET', 
+                    url: recipeUrl + '/forks',
+                    isArray: true 
+                } 
+            });
         return Recipe;
     }])
     .factory('Photo', ['$resource', function($resource) {
@@ -38,37 +38,27 @@ angular.module('opensauce.services', [])
         var About = $resource('http://www.opensauce.cz/api/about', {}, {});
         return About;
     }])
-    .service('RecipeMaker', function() {
-        var ingredients = [], title = '';
-
-        this.init = function() {
+    .service('Mixer', function() {
+        var ingredients = [];
+        this.clear = function() {
             ingredients = [];
-            title = '';
         };
 
-        this.getIngredients = function() {
+        this.get = function() {
             return ingredients;
         };
 
-        this.addIngredient = function(id) {
+        this.add = function(id) {
             if (ingredients.indexOf(id) === -1) {
                 ingredients.push(id);
             }
         };
 
-        this.removeIngredient = function(id) {
+        this.remove = function(id) {
             var ingredientIndex = ingredients.indexOf(id);
             if (ingredientIndex !== -1) {
                 ingredients.splice(ingredientIndex, 1);
             }
-        };
-
-        this.getTitle = function() {
-            return title;
-        };
-
-        this.setTitle = function(newTitle) {
-            title = newTitle;
         };
     })
     .factory('ZenCanvasFactory', function() {

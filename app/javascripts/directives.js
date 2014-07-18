@@ -1,17 +1,4 @@
 angular.module('opensauce.directives', [])
-    .directive('mainmenu', function() {
-        return {
-            restrict: 'E',
-            replace: true,
-            transclude: true,
-            template: '<nav class="menu" ng-transclude></nav>',
-            link: function(scope, element) {
-                element.on('click', '.menuButton', function() {
-                    alert(123);
-                });
-            }
-        };
-    })
     .directive('recipeBackground', ['ZenCanvasFactory', function(ZenCanvasFactory) {
         return {
             restrict: 'C',
@@ -59,7 +46,7 @@ angular.module('opensauce.directives', [])
             }
         };
     }])
-    .directive('wheel', ['ZenFactory', 'RecipeMaker', function(ZenFactory, RecipeMaker) {
+    .directive('wheel', ['ZenFactory', 'Mixer', function(ZenFactory, Mixer) {
         return {
             restrict: 'E',
             scope: {
@@ -75,21 +62,11 @@ angular.module('opensauce.directives', [])
                     zen = ZenFactory,
                     c;
 
-                var svg = d3.select('#' + element.attr('id')).append("svg")
+                var svg = d3.select(element[0]).append("svg")
                     .attr("width", width)
                     .attr("height", height);
 
                 zen.init(svg, width, height, []);
-
-                scope.recipeMaker = RecipeMaker;
-
-                scope.$watch('recipeMaker.getIngredients()', function (newValue, oldValue) {
-                    if (oldValue.length !== 0 && newValue.length === 0) {
-                        zen.removeNodes();
-                        resetIngredients(scope.ingredients);
-                        drawColors();
-                    }
-                });
 
                 function resetIngredients(ingredients) {
                     ingredients.forEach(function (ingredient) {
@@ -137,9 +114,9 @@ angular.module('opensauce.directives', [])
                         d3.event.stopPropagation();
                         d.selected = !d.selected;
                         if (d.selected) {
-                            RecipeMaker.addIngredient(d.id);
+                            Mixer.add(d.id);
                         } else {
-                            RecipeMaker.removeIngredient(d.id);
+                            Mixer.remove(d.id);
                         }
                         zen.setNodes(d, d.selected ? 24 : 0);
                         drawColors();
@@ -216,10 +193,7 @@ angular.module('opensauce.directives', [])
                     var propertyReference;
                     var displayName;
 
-                    console.log(currentState);
                     propertyReference = getObjectValue('data.title', currentState);
-
-                    console.log(propertyReference);
 
                     if (propertyReference === false) {
                         return false;
@@ -233,14 +207,6 @@ angular.module('opensauce.directives', [])
                     }
                 }
 
-                /**
-                 * Given a string of the type 'object.property.property', traverse the given context (eg the current $state object) and return the
-                 * value found at that path.
-                 *
-                 * @param objectPath
-                 * @param context
-                 * @returns {*}
-                 */
                 function getObjectValue(objectPath, context) {
                     var i;
                     var propertyArray = objectPath.split('.');
@@ -250,7 +216,6 @@ angular.module('opensauce.directives', [])
                         if (angular.isDefined(propertyReference[propertyArray[i]])) {
                             propertyReference = propertyReference[propertyArray[i]];
                         } else {
-                            // if the specified property was not found, default to the state's name
                             return undefined;
                         }
                     }

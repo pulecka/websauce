@@ -1,12 +1,5 @@
-<header class="labHeader">
-    <h1 id="home">
-        <a href="home">opensauce:lab:mixer</a>
-    </h1>
-    <h2 id="user">
-        <input type="text" class="labInput" ng-model="name" ng-required/>
-        <a href="" ng-click="save()">save</a>
-    </h2>
-</header>
-<main id="labContent">
-    <wheel id="colorWheel" ingredients="ingredients"></wheel>
-</main>
+<form class="mixerForm">
+	<input type="text" class="mixerInput" ng-model="recipe.title" ng-required/>
+	<button class="mixerButton" ng-click="save(recipe)">save</button>
+</form>
+<wheel class="mixerWheel" ingredients="ingredients"></wheel>
