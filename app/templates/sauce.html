@@ -2,9 +2,9 @@
 </div>
 <div class="sauceDetail-info">
 	<div class="sauceDetail-sauceName">{{recipe.title}}</div>
-	<button class="editSauceButton" ng-hide="editMode" ng-click="editMode = true">edit</button>
-	<button class="saveSauceButton" ng-show="editMode" ng-click="save(recipe)">save</button>
-	<button class="cancelEditSauceButton" ng-show="editMode" ng-click="editMode = false">cancel</button>
+	<button class="editSauceButton" ng-hide="editMode" ng-click="editMode = true">{{'edit' | translate}}</button>
+	<button class="saveSauceButton" ng-show="editMode" ng-click="save(recipe)">{{'save' | translate}}</button>
+	<button class="cancelEditSauceButton" ng-show="editMode" ng-click="editMode = false">{{'cancel' | translate}}</button>
 
 	<div class="sauceDetail-commentAuthor">{{recipe.account.name}}</div>
 	<div class="sauceDetail-commentTime">{{recipe.created_at | timeago}}</div>
@@ -18,7 +18,7 @@
 
 </div>
 
-<h3 class="sauceDetail-header" ng-if="forks.length">versions</h3>
+<h3 class="sauceDetail-header" ng-if="forks.length">{{'versions' | translate}}</h3>
 <ul class="sauceDetail-recipes" ng-if="forks.length">
 	<li class="recipe" ng-repeat="fork in forks">
 		<a class="recipeLink" ui-sref="detail({name: fork.name})">
@@ -29,7 +29,7 @@
 	</li>
 </ul>
 
-<h3 class="sauceDetail-header" ng-if="photos.length">photos</h3>
+<h3 class="sauceDetail-header" ng-if="photos.length">{{'photos' | translate}}</h3>
 <ul class="sauceDetail-photos" ng-if="photos.length">
 	<li ng-repeat="photo in photos" class="sauceDetail-photo" style="background-image: url({{photo.image.url}})">
 		<div class="sauceDetail-overlay">
@@ -38,7 +38,7 @@
 	</li>
 </ul>
 
-<h3 class="sauceDetail-header" ng-if="comments.length">comments</h3>
+<h3 class="sauceDetail-header" ng-if="comments.length">{{'comments' | translate}}</h3>
 <ul class="sauceDetail-comments" ng-if="comments.length">
 	<li ng-repeat="comment in comments" class="sauceDetail-comment">
 		<div class="sauceDetail-commentBody">{{comment.body}}</div>

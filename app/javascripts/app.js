@@ -38,6 +38,9 @@ angular.module('opensauce', [
                         templateUrl: '/template/sauces.html',
                         controller: 'SaucesController'
                     }
+                },
+                data: {
+                    title: '{{"sauces" | translate}}'
                 }
             })
             .state('add', {
@@ -48,7 +51,11 @@ angular.module('opensauce', [
                         templateUrl: '/template/addSauce.html',
                         controller: 'AddSauceController',
                     }
+                },
+                data: {
+                    title: '{{"add" | translate}}'
                 }
+
             })
             .state('detail', {
                 parent: 'sauce',
@@ -88,7 +95,11 @@ angular.module('opensauce', [
                         templateUrl: '/template/gallery.html',
                         controller: 'GalleryController'
                     }
+                },
+                data: {
+                    title: '{{"photos" | translate}}'
                 }
+
             })
             .state('flavors', {
                 parent: 'opensauce',
@@ -98,17 +109,11 @@ angular.module('opensauce', [
                         templateUrl: '/template/flavors.html',
                         controller: 'FlavorsController'
                     }
+                },
+                data: {
+                    title: '{{"flavors" | translate}}'
                 }
-            })
-            .state('flavor', {
-                parent: 'flavors',
-                url: '/:name',
-                views: {
-                    'main@': {
-                        templateUrl: '/template/flavor.html',
-                        controller: 'FlavorController'
-                    }
-                }
+
             })
             .state('users', {
                 parent: 'opensauce',
@@ -118,16 +123,9 @@ angular.module('opensauce', [
                         templateUrl: '/template/users.html',
                         controller: 'UsersController'
                     }
-                }
-            })
-            .state('user', {
-                parent: 'users',
-                url: '/:name',
-                views: {
-                    'main@': {
-                        templateUrl: '/template/user.html',
-                        controller: 'UserController'
-                    }
+                },
+                data: {
+                    title: '{{"users" | translate}}'
                 }
             })
             .state('lab', {
@@ -138,7 +136,11 @@ angular.module('opensauce', [
                         templateUrl: '/template/lab.html',
                         controller: 'LabController'
                     }
+                },
+                data: {
+                    title: '{{"labs" | translate}}'
                 }
+
             })
             .state('mixer', {
                 parent: 'lab',
@@ -158,6 +160,9 @@ angular.module('opensauce', [
                         templateUrl: '/template/about.html',
                         controller: 'AboutController'
                     }
+                },
+                data: {
+                    title: '{{"sauces" | translate}}'
                 }
             });
     
@@ -171,7 +176,11 @@ angular.module('opensauce', [
                 users: 'users',
                 labs: 'labs',
                 about: 'about',
-                login: 'login'
+                login: 'login',
+                add: 'add',
+                edit: 'edit',
+                save: 'save',
+                cancel: 'cancel'
             })
             .translations('cz', {
                 sauces: 'omáčky',
@@ -180,10 +189,18 @@ angular.module('opensauce', [
                 users: 'uživatelé',
                 labs: 'stánky',
                 about: 'o nás',
-                login: 'přihlášení'
+                login: 'přihlášení',
+                add: 'přidat',
+                edit: 'upravit',
+                save: 'uložit',
+                cancel: 'zrušit',
+                comments: 'komentáře',
+                versions: 'úpravy',
+                indicateName: 'jméno omáčky',
+                newSauce: 'novou omáčku'
             });
 
-        $translateProvider.preferredLanguage('en');
+        $translateProvider.preferredLanguage('cz');
 
         $httpProvider.interceptors.push('AuthInterceptor');
 

@@ -18,10 +18,10 @@
         <a ui-sref="about">{{'about' | translate}}</a>
     </li>
 </menu>
-<button class="menuButton" ng-class="{active: showMenu}" ng-click="toggleMenu()"></button>
+<button class="menuButton" ng-class="{menuIsVisible: showMenu}" ng-click="toggleMenu()"><div class="menuButtonCircle"></div><div class="menuButtonCircle"></div><div class="menuButtonCircle"></div></button>
 <headertitle ng-class="{menuIsVisible: showMenu}"></headertitle>
 <h2 class="userInfo" ng-class="{menuIsVisible: showMenu}">
-    <span class="languageChange" ng-click="changeLanguage('en')">en</span>:<span class="languageChange" ng-click="changeLanguage('cz')">cz</span>
+    <!-- <span class="languageChange" ng-click="changeLanguage('en')">en</span>:<span class="languageChange" ng-click="changeLanguage('cz')">cz</span> -->
     <a class="login" ng-click="login()" ng-if="!currentUser">{{'login' | translate}}</a>
     <a class="currentUser" ui-sref="users" ng-if="currentUser">{{currentUser.name}}</a>
 </h2>

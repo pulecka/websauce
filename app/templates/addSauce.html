@@ -2,8 +2,8 @@
 </div>
 
 <div class="sauceDetail-info">
-	<input type="text" class="mixerInput" ng-model="recipe.title" ng-required/>
-	<button class="mixerButton" ng-click="save(recipe)">save</button>
+	<input type="text" class="mixerInput" ng-model="recipe.title" placeholder="{{'indicateName' | translate}}" ng-required/>
+	<button class="mixerButton" ng-click="save(recipe)">{{'save' | translate}}</button>
 
 	<ul class="recipeIngredients">
 		<li class="recipeIngredient" ng-class="{selected: contains(ingredient)}" ng-repeat="ingredient in ingredients">

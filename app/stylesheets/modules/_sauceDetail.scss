@@ -39,6 +39,22 @@
   letter-spacing: 0.0625em;
 }
 
+.mixerInput {
+  float: left;
+  width: 60%;
+  margin: 1em 0;
+  padding: 0;
+  outline: none;
+  border: none;
+  border-bottom: 1px #646464 solid;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1.5em;
+  font-weight: 200;
+  letter-spacing: 0.0625em;
+  text-align: left;
+}
+
+.mixerButton,
 .editSauceButton,
 .saveSauceButton,
 .cancelEditSauceButton {

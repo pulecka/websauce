@@ -37,7 +37,7 @@ menu {
   padding: 0;
   line-height: 80px;
   font-size: 2em;
-  font-weight: 300;
+  font-weight: 200;
   letter-spacing: 0.0625em;
   list-style: none;
 }
@@ -51,12 +51,12 @@ menu {
   display: inline-block;
   margin: 0;
   padding: 0;
-  pointer: default;
+  cursor: pointer;
 }
 
-.breadcrumb.active,
-.breadcrumb:hover {
-  color: rgb(254, 55, 122);
+.breadcrumb.active {
+  font-weight: 300;
+  cursor: default;
 }
 
 .userInfo {
@@ -72,9 +72,12 @@ menu {
   line-height: 44px;
 }
 
-.login {
+.login,
+.currentUser {
   margin-left: 1em;
   font-size: 1.8em;
+  font-weight: 200;
+  cursor: pointer;
 }
 
 .menuButton {
@@ -84,6 +87,22 @@ menu {
   height: 32px;
   width: 64px;
   margin: 0 -32px;
-  background: pink;
   border: none;
+  outline: none;
+  background: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+.menuButtonCircle {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 10px 2px;
+  border-radius: 50%;
+  background: #646464;
+}
+
+.menuIsVisible .menuButtonCircle {
+  margin: 10px 4px;
 }
