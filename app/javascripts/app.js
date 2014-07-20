@@ -204,7 +204,7 @@ angular.module('opensauce', [
 
         $httpProvider.interceptors.push('AuthInterceptor');
 
-        //document.domain = location.host.replace(/^.*?([^.]+\.[^.]+)$/g,'$1');
+        document.domain = location.host.replace(/^.*?([^.]+\.[^.]+)$/g,'$1');
     }]);
 
     
