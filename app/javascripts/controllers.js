@@ -28,11 +28,46 @@ angular.module('opensauce.controllers', [])
 	.controller('SaucesController', ['$scope', 'recipes', function($scope, recipes) {
 		$scope.recipes = recipes;
 	}])
-	.controller('SauceController', ['$scope', 'recipe', 'forks', 'photos', 'comments', 'Recipe', function($scope, recipe, forks, photos, comments, Recipe) {
+	.controller('SauceController', ['$scope', '$state', 'recipe', 'forks', 'photos', 'comments', 'ingredients', 'Recipe', function($scope, $state, recipe, forks, photos, comments, ingredients, Recipe) {
+		$scope.editMode = false;
+
 		$scope.recipe = recipe;
 		$scope.forks = Recipe.forks({name: recipe.name});
 		$scope.photos = Recipe.photos({name: recipe.name});
 		$scope.comments = Recipe.comments({name: recipe.name});
+		$scope.ingredients = function() {
+			return $scope.editMode ? ingredients : recipe.ingredients;
+		};
+
+		function indexOfObject(array, object) {
+    	var i = array ? array.length : 0;
+    	while (i--) {
+				if (array[i].id === object.id) {
+      		return i;
+      	}
+			}
+			return -1;
+		}
+
+		$scope.contains = function(ingredient) {
+			return indexOfObject($scope.recipe.ingredients, ingredient) !== -1;
+		};
+
+		$scope.toggle = function(ingredient) {
+			var ingredientIndex = indexOfObject($scope.recipe.ingredients, ingredient);
+			if (ingredientIndex === -1) {
+				$scope.recipe.ingredients.push(ingredient);
+			} else {
+				$scope.recipe.ingredients.splice(ingredientIndex, 1);
+			}
+		};
+
+		$scope.save = function(recipe) {
+			recipe.$save().then(function(response) {
+				$state.reload();
+				$state.go('detail', {name: response.name});
+			});
+		};
 	}])
 	.controller('GalleryController', ['$http', '$scope', 'Photo', function($http, $scope, Photo) {
 		$scope.photos = Photo.query();
@@ -45,6 +80,45 @@ angular.module('opensauce.controllers', [])
 	}])
 	.controller('LabController', ['$http', '$scope', function($http, $scope) {
 	}])
+	.controller('AddSauceController', ['$scope', '$state', 'Ingredient', 'Recipe', 'AuthenticationService', function($scope, $state, Ingredient, Recipe, AuthenticationService) {
+		$scope.ingredients = Ingredient.query();
+		$scope.recipe = new Recipe();
+		$scope.recipe.ingredients = [];
+
+		function indexOfObject(array, object) {
+    	var i = array ? array.length : 0;
+    	while (i--) {
+				if (array[i].id === object.id) {
+      		return i;
+      	}
+			}
+			return -1;
+		}
+
+		$scope.contains = function(ingredient) {
+			return indexOfObject($scope.recipe.ingredients, ingredient) !== -1;
+		};
+
+		$scope.toggle = function(ingredient) {
+			var ingredientIndex = indexOfObject($scope.recipe.ingredients, ingredient);
+			if (ingredientIndex === -1) {
+				$scope.recipe.ingredients.push(ingredient);
+			} else {
+				$scope.recipe.ingredients.splice(ingredientIndex, 1);
+			}
+		};
+
+		$scope.save = function(recipe) {
+			if (AuthenticationService.getCurrentUser()) {
+				recipe.author = AuthenticationService.getCurrentUser();
+			}
+			recipe.$save().then(function(response) {
+				$state.go('detail', {name: response.name});
+				$state.reload();
+			});
+		};
+	}])
+
 	.controller('MixerController', ['$scope', '$state', 'Ingredient', 'Recipe', 'Mixer', 'AuthenticationService', function($scope, $state, Ingredient, Recipe, Mixer, AuthenticationService) {
 		$scope.ingredients = Ingredient.query();
 		$scope.recipe = new Recipe();
@@ -57,8 +131,9 @@ angular.module('opensauce.controllers', [])
 			$scope.recipe.$save().then(function(recipe) {
 				Mixer.clear();
 				$state.go('detail', {name: recipe.name});
+				$state.reload();
 			});
-		}
+		};
 	}])
 	.controller('AboutController', ['About', '$scope', function(About, $scope) {
 		$scope.about = About.query();

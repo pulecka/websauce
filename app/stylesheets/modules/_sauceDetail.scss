@@ -1,13 +1,13 @@
 .sauceDetail-zen {
-  float: left;
-  width: 32%;
-  margin: 0 8%;
+  display: inline-block;
+  width: 40%;
+  vertical-align: top;
 }
 
 .sauceDetail-info {
-  float: left;
-  width: 36%;
-  margin: 20px 8%;
+  display: inline-block;
+  width: 40%;
+  padding: 20px 0 0 40px;
 }
 
 .sauceDetail-header {
@@ -31,9 +31,34 @@
   margin: 20px 0;
 }
 
+.sauceDetail-sauceName {
+  float: left;
+  font-size: 2em;
+  margin: 0.5em 0;
+  font-weight: 200;
+  letter-spacing: 0.0625em;
+}
+
+.editSauceButton,
+.saveSauceButton,
+.cancelEditSauceButton {
+  float: right;
+  margin: 1em 0 0.5em 0.2em;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.5em;
+  font-style: normal;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 200;
+  letter-spacing: 0.0625em;
+  cursor: pointer;
+}
+
 .sauceDetail-commentBody {
   color: #202020;
-  font-size: 16px;
+  font-size: 1.5em;
   font-weight: 300;
   text-justify: justify;
   letter-spacing: .0625em;
@@ -41,19 +66,20 @@
 
 .sauceDetail-commentAuthor {
   float: left;
-  margin-top: 0.5em;
+  clear: both;
+  margin: 0.5em 0;
   color: #646464;
-  font-size: 16px;
-  font-weight: 100;
+  font-size: 1.5em;
+  font-weight: 200;
   letter-spacing: .0625em;
 }
 
 .sauceDetail-commentTime {
   float: right;
-  margin-top: 0.5em;
+  margin: 0.5em 0;
   color: #646464;
-  font-size: 16px;
-  font-weight: 100;
+  font-size: 1.5em;
+  font-weight: 200;
   letter-spacing: .0625em;
 }
 
@@ -77,4 +103,35 @@
 
 .sauceDetail-photo:hover .sauceDetail-overlay {
   display: block;
+}
+
+.recipeIngredients {
+  clear: both;
+}
+
+.recipeIngredient {
+  float: left;
+  width: 80%;
+  min-width: 12em;
+  margin: 0.5em 0;
+  font-size: 1.4em;
+  text-align: left;
+  letter-spacing: 0.0625em;
+}
+
+.recipeIngredientColor {
+  float: left;
+  width: 1.25em;
+  height: 1.25em;
+  margin: 0.1em 0.4em 0 0;
+  border: 0.15em solid white;
+  border-radius: 50%;
+}
+
+.recipeIngredient.selected .recipeIngredientColor {
+  background-color: white !important;
+}
+
+.recipeIngredient:not(.selected) .recipeIngredientColor {
+  border-color: white !important;
 }

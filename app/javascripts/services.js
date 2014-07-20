@@ -5,7 +5,6 @@ angular.module('opensauce.services', [])
         return Ingredient;
     }])
     .factory('Recipe', ['$resource', function($resource) {
-        //var recipeUrl = 'http://localhost:3000/api/recipe/:name',
         var recipeUrl = 'http://www.opensauce.cz/api/recipe/:name',
             Recipe = $resource(recipeUrl, {}, {
                 comments: { 

@@ -40,6 +40,16 @@ angular.module('opensauce', [
                     }
                 }
             })
+            .state('add', {
+                parent: 'sauce',
+                url: '/add',
+                views: {
+                    'main@': {
+                        templateUrl: '/template/addSauce.html',
+                        controller: 'AddSauceController',
+                    }
+                }
+            })
             .state('detail', {
                 parent: 'sauce',
                 url: '/:name',
@@ -64,6 +74,9 @@ angular.module('opensauce', [
                     }],
                     comments: ['$stateParams', 'Recipe', function($stateParams, Recipe) {
                         return Recipe.comments({name: $stateParams.name});
+                    }],
+                    ingredients: ['Ingredient', function(Ingredient) {
+                        return Ingredient.query();
                     }]
                 }
             })
@@ -170,7 +183,7 @@ angular.module('opensauce', [
                 login: 'přihlášení'
             });
 
-        $translateProvider.preferredLanguage('cz');
+        $translateProvider.preferredLanguage('en');
 
         $httpProvider.interceptors.push('AuthInterceptor');
 

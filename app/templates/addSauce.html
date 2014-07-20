@@ -1,0 +1,14 @@
+<div class="sauceDetail-zen zen" ingredients="recipe.ingredients">
+</div>
+
+<div class="sauceDetail-info">
+	<input type="text" class="mixerInput" ng-model="recipe.title" ng-required/>
+	<button class="mixerButton" ng-click="save(recipe)">save</button>
+
+	<ul class="recipeIngredients">
+		<li class="recipeIngredient" ng-class="{selected: contains(ingredient)}" ng-repeat="ingredient in ingredients">
+			<div class="recipeIngredientColor" style="background-color: {{ingredient.color}}; border-color: {{ingredient.color}};"></div>
+			<span class="recipeIngredientName" ng-click="toggle(ingredient)">{{ingredient.name}}</span>
+		</li>
+	</ul>
+</div>

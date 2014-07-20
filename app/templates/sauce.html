@@ -1,8 +1,21 @@
 <div class="sauceDetail-zen zen" ingredients="recipe.ingredients">
 </div>
 <div class="sauceDetail-info">
+	<div class="sauceDetail-sauceName">{{recipe.title}}</div>
+	<button class="editSauceButton" ng-hide="editMode" ng-click="editMode = true">edit</button>
+	<button class="saveSauceButton" ng-show="editMode" ng-click="save(recipe)">save</button>
+	<button class="cancelEditSauceButton" ng-show="editMode" ng-click="editMode = false">cancel</button>
+
 	<div class="sauceDetail-commentAuthor">{{recipe.account.name}}</div>
 	<div class="sauceDetail-commentTime">{{recipe.created_at | timeago}}</div>
+
+	<ul class="recipeIngredients">
+		<li class="recipeIngredient" ng-class="{selected: editMode && contains(ingredient)}" ng-repeat="ingredient in ingredients()">
+			<div class="recipeIngredientColor" style="background-color: {{ingredient.color}}; border-color: {{ingredient.color}};"></div>
+			<span class="recipeIngredientName" ng-click="editMode && toggle(ingredient)">{{ingredient.name}}</span>
+		</li>
+	</ul>
+
 </div>
 
 <h3 class="sauceDetail-header" ng-if="forks.length">versions</h3>

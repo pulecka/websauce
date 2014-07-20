@@ -145,13 +145,47 @@ angular.module('opensauce.directives', [])
             },
             link: function(scope, element) {
                 var width = element.outerWidth(),
-                    height = width;
+                    height = width,
+                    zen = ZenFactory;
 
                 var svg = d3.select(element[0]).append("svg")
                     .attr("width", width)
                     .attr("height", height);
 
-                ZenFactory.init(svg, width, height, scope.ingredients);
+                zen.init(svg, width, height, scope.ingredients ? scope.ingredients : []);
+
+                scope.$watch('ingredients', function (ingredients, oldIngredients) {
+                    console.log(ingredients);
+                    scope.ingredients = ingredients;
+                    if (ingredients && oldIngredients) {
+                        var addedIngredients = ingredients.filter(function(ingredient) {
+                            return !oldIngredients.some(function(oldIngredient) {
+                                return ingredient.id == oldIngredient.id;
+                            });
+                        });
+
+                        var removedIngredients = oldIngredients.filter(function(oldIngredient) {
+                            return !ingredients.some(function(ingredient) {
+                                return oldIngredient.id == ingredient.id;
+                            });
+                        });
+
+                        if (addedIngredients.length) {
+                            addedIngredients.forEach(function(ingredient) {
+                                zen.setNodes(ingredient, 24);
+                            });
+                        } else if (removedIngredients.length) {
+                            removedIngredients.forEach(function(ingredient) {
+                                zen.setNodes(ingredient, 0);
+                            });
+                        }
+                    } else if (ingredients) {
+                        ingredients.forEach(function(ingredient) {
+                            zen.setNodes(ingredient, 24);
+                        });
+                    }
+                }, true);
+
             }
         };
     }])
