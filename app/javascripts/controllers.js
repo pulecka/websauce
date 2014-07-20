@@ -18,7 +18,7 @@ angular.module('opensauce.controllers', [])
 		}, true);
 
 		$scope.login = function() {
-			var loginWindow = window.open('http://www.opensauce.cz/auth/facebook', 'facebook', 'align=center,directories=no,height=560,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000');
+			var loginWindow = window.open('http://old.opensauce.cz/auth/facebook', 'facebook', 'align=center,directories=no,height=560,location=no,menubar=no,resizable=yes,scrollbars=yes,status=no,toolbar=no,width=1000');
 			loginWindow.focus();
 		};
 	}])

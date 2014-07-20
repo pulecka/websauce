@@ -1,11 +1,11 @@
 angular.module('opensauce.services', [])
     .value('version', '0.1')
     .factory('Ingredient', ['$resource', function($resource) {
-        var Ingredient = $resource('http://www.opensauce.cz/api/ingredient/:name', {}, {});
+        var Ingredient = $resource('http://old.opensauce.cz/api/ingredient/:name', {}, {});
         return Ingredient;
     }])
     .factory('Recipe', ['$resource', function($resource) {
-        var recipeUrl = 'http://www.opensauce.cz/api/recipe/:name',
+        var recipeUrl = 'http://old.opensauce.cz/api/recipe/:name',
             Recipe = $resource(recipeUrl, {}, {
                 comments: { 
                     method: 'GET', 
@@ -26,15 +26,15 @@ angular.module('opensauce.services', [])
         return Recipe;
     }])
     .factory('Photo', ['$resource', function($resource) {
-        var Ingredient = $resource('http://www.opensauce.cz/api/photo/:name', {}, {});
+        var Ingredient = $resource('http://old.opensauce.cz/api/photo/:name', {}, {});
         return Ingredient;
     }])
     .factory('User', ['$resource', function($resource) {
-        var Recipe = $resource('http://www.opensauce.cz/api/user/:name', {}, {});
+        var Recipe = $resource('http://old.opensauce.cz/api/user/:name', {}, {});
         return Recipe;
     }])
     .factory('About', ['$resource', function($resource) {
-        var About = $resource('http://www.opensauce.cz/api/about', {}, {});
+        var About = $resource('http://old.opensauce.cz/api/about', {}, {});
         return About;
     }])
     .service('Mixer', function() {
