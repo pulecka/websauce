@@ -8,10 +8,21 @@ header {
 }
 
 menu {
+  height: 32px;
   margin: 0;
   padding: 0 160px;
   overflow: hidden;
   list-style: none;
+  opacity: 1;
+  @include transition-property (all);
+  @include transition-duration(0.25s);
+  @include transition-timing-function(ease);
+}
+
+menu.ng-hide {
+  display: block !important;
+  opacity: 0;
+  height: 0px;
 }
 
 .menuItem {
@@ -40,6 +51,9 @@ menu {
   font-weight: 200;
   letter-spacing: 0.0625em;
   list-style: none;
+  @include transition-property (all);
+  @include transition-duration(0.25s);
+  @include transition-timing-function(ease);
 }
 
 .breadcrumbs.menuIsVisible {
@@ -66,6 +80,9 @@ menu {
   letter-spacing: 0.0625em;
   font-size: 1em;
   font-weight: 200;
+  @include transition-property (all);
+  @include transition-duration(0.25s);
+  @include transition-timing-function(ease);
 }
 
 .userInfo.menuIsVisible {
@@ -101,6 +118,9 @@ menu {
   margin: 10px 2px;
   border-radius: 50%;
   background: #646464;
+  @include transition-property (all);
+  @include transition-duration(0.5s);
+  @include transition-timing-function(ease);
 }
 
 .menuIsVisible .menuButtonCircle {
