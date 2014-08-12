@@ -10,7 +10,7 @@ header {
 menu {
   height: 2.5em;
   margin: 0;
-  padding: 0 10%;
+  padding: 0 5%;
   overflow: hidden;
   list-style: none;
   opacity: 1;
@@ -27,7 +27,7 @@ menu.ng-hide {
 
 .menuItem {
   float: left;
-  width: 16.66%;
+  width: 15%;
   height: 2.5em;
   line-height: 2.5em;
   font-size: 1em;
@@ -37,6 +37,14 @@ menu.ng-hide {
   font-weight: 300;
 }
 
+.menuItem:nth-of-type(3) {
+  margin-right: 5%;
+}
+
+.menuItem:nth-of-type(4) {
+  margin-left: 5%;
+}
+
 .menuItem:nth-of-type(n+4) {
   text-align: right;
 }
@@ -44,7 +52,7 @@ menu.ng-hide {
 .breadcrumbs {
   float: left;
   height: 3.5em;
-  margin: 0 0 0 10%;
+  margin: 0 0 0 5%;
   padding: 0;
   line-height: 3.5em;
   font-size: 1.7em;
@@ -75,7 +83,7 @@ menu.ng-hide {
 
 .userInfo {
   float: right;
-  margin: 0 10% 0 0;
+  margin: 0 5% 0 0;
   line-height: 6em;
   letter-spacing: 0.0625em;
   font-size: 1em;

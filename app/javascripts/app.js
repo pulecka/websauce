@@ -186,7 +186,7 @@ angular.module('opensauce', [
                 sauces: 'omáčky',
                 flavors: 'přísady',
                 photos: 'galerie',
-                users: 'uživatelé',
+                users: 'kuchaři',
                 labs: 'stánky',
                 about: 'o nás',
                 login: 'přihlášení',
