@@ -6,8 +6,16 @@ body {
   height: 100%;
   margin: 0;
   font-family: 'Source Sans Pro', sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 300;
+
+  @include bp(tablet-landscape) {
+    font-size: 12px;
+  }
+
+  @include bp(phone) {
+    font-size: 9px;
+  }
 }
 
 a {
@@ -16,7 +24,7 @@ a {
 }
 
 main {
-  width: 1140px;
+  @extend %container;
   margin: 80px auto 20px;
   overflow: hidden;
   text-align: center;

@@ -1,16 +1,16 @@
 header {
   position: fixed;
   top: 0;
-  height: 80px;
+  height: 6em;
   width: 100%;
   background: $overlayLight;
   z-index: 2;
 }
 
 menu {
-  height: 32px;
+  height: 2.5em;
   margin: 0;
-  padding: 0 160px;
+  padding: 0 10%;
   overflow: hidden;
   list-style: none;
   opacity: 1;
@@ -22,15 +22,15 @@ menu {
 menu.ng-hide {
   display: block !important;
   opacity: 0;
-  height: 0px;
+  height: 0;
 }
 
 .menuItem {
   float: left;
   width: 16.66%;
-  height: 32px;
-  line-height: 32px;
-  font-size: 1.2em;
+  height: 2.5em;
+  line-height: 2.5em;
+  font-size: 1em;
   text-align: left;
   text-transform: uppercase;
   letter-spacing: 0.125em;
@@ -43,11 +43,11 @@ menu.ng-hide {
 
 .breadcrumbs {
   float: left;
-  height: 80px;
-  margin: 0 0 0 160px;
+  height: 3.5em;
+  margin: 0 0 0 10%;
   padding: 0;
-  line-height: 80px;
-  font-size: 2em;
+  line-height: 3.5em;
+  font-size: 1.7em;
   font-weight: 200;
   letter-spacing: 0.0625em;
   list-style: none;
@@ -57,8 +57,8 @@ menu.ng-hide {
 }
 
 .breadcrumbs.menuIsVisible {
-  height: 44px;
-  line-height: 44px;
+  height: 1.8em;
+  line-height: 1.8em;
 }
 
 .breadcrumb {
@@ -75,8 +75,8 @@ menu.ng-hide {
 
 .userInfo {
   float: right;
-  margin: 0 160px 0 0;
-  line-height: 80px;
+  margin: 0 10% 0 0;
+  line-height: 6em;
   letter-spacing: 0.0625em;
   font-size: 1em;
   font-weight: 200;
@@ -86,13 +86,13 @@ menu.ng-hide {
 }
 
 .userInfo.menuIsVisible {
-  line-height: 44px;
+  line-height: 3.1em;
 }
 
 .login,
 .currentUser {
   margin-left: 1em;
-  font-size: 1.8em;
+  font-size: 1.5em;
   font-weight: 200;
   cursor: pointer;
 }
@@ -101,9 +101,9 @@ menu.ng-hide {
   position: absolute;
   left: 50%;
   top: 0;
-  height: 32px;
-  width: 64px;
-  margin: 0 -32px;
+  height: 2.5em;
+  width: 6em;
+  margin: 0 -3em;
   border: none;
   outline: none;
   background: none;

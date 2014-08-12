@@ -10,19 +10,19 @@
 
 .photoName {
   @extend %collectionItemTitle;
-  color: $textColorLight;
+  color: $textColorDark;
 }
 
 .photoAuthor {
   @extend %collectionItemSubtitle;
-  color: $textColorLight;
+  color: $textColorDark;
 }
 
 .overlay {
   @extend %collectionItemImage;
   display: none;
   border-radius: 50%;
-  background: $overlayDark;
+  background: $overlayLight;
 }
 
 .photo:hover .overlay {

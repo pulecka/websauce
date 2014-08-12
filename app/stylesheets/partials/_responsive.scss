@@ -1,6 +1,13 @@
+%container {
+  width: 90%;
+  max-width: 1800px;
+  min-width: 320px;
+  margin: 0 auto;
+}
+
 @mixin bp($point) {
   @if $point == large-desktop {
-    @media (max-width: 1920px) {
+    @media (max-width: 2560px) {
       @content
     }
   }

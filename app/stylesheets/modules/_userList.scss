@@ -19,10 +19,7 @@
 }
 
 .overlay {
-  @extend %collectionItemImage;
-  display: none;
-  border-radius: 50%;
-  background: $overlayDark;
+  @extend %collectionItemOverlay;
 }
 
 .user:hover .overlay {
