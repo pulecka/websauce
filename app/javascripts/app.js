@@ -150,6 +150,9 @@ angular.module('opensauce', [
                         templateUrl: '/template/mix.html',
                         controller: 'MixerController'
                     }
+                },
+                data: {
+                    title: '{{"zen" | translate}}'
                 }
             })
             .state('about', {
@@ -180,7 +183,10 @@ angular.module('opensauce', [
                 add: 'add',
                 edit: 'edit',
                 save: 'save',
-                cancel: 'cancel'
+                cancel: 'cancel',
+                indicateName: 'sauce name',
+                newSauce: 'new sauce',
+                zen: 'zen'
             })
             .translations('cz', {
                 sauces: 'omáčky',
@@ -197,7 +203,8 @@ angular.module('opensauce', [
                 comments: 'komentáře',
                 versions: 'úpravy',
                 indicateName: 'jméno omáčky',
-                newSauce: 'novou omáčku'
+                newSauce: 'novou omáčku',
+                zen: 'zen'
             });
 
         $translateProvider.preferredLanguage('cz');
