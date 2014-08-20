@@ -113,8 +113,8 @@ angular.module('opensauce.controllers', [])
 				recipe.author = AuthenticationService.getCurrentUser();
 			}
 			recipe.$save().then(function(response) {
-				$state.go('detail', {name: response.name});
 				$state.reload();
+				$state.go('detail', {name: response.name});
 			});
 		};
 	}])
@@ -124,14 +124,17 @@ angular.module('opensauce.controllers', [])
 		$scope.recipe = new Recipe();
 
 		$scope.save = function() {
-			$scope.recipe.ingredients = Mixer.get();
+			$scope.recipe.ingredients = Mixer.get().map(function(id) {
+				return {id: id};
+			});
 			if (AuthenticationService.getCurrentUser()) {
 				$scope.author = AuthenticationService.getCurrentUser().id ;
 			}
-			$scope.recipe.$save().then(function(recipe) {
+
+			$scope.recipe.$save().then(function(response) {
 				Mixer.clear();
-				$state.go('detail', {name: recipe.name});
 				$state.reload();
+				$state.go('detail', {name: response.name});
 			});
 		};
 	}])
