@@ -8,7 +8,7 @@
 	<ul class="recipeIngredients">
 		<li class="recipeIngredient" ng-class="{selected: contains(ingredient)}" ng-repeat="ingredient in ingredients">
 			<div class="recipeIngredientColor" style="background-color: {{ingredient.color}}; border-color: {{ingredient.color}};"></div>
-			<span class="recipeIngredientName" ng-click="toggle(ingredient)">{{ingredient.name}}</span>
+			<span class="recipeIngredientName" ng-click="toggle(ingredient)">{{ingredient.friendly | translate}}</span>
 		</li>
 	</ul>
 </div>

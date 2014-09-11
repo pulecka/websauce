@@ -2,7 +2,7 @@
 	<li class="ingredient" ng-repeat="ingredient in ingredients">
 		<a class="ingredientLink" ui-sref="flavor({name: ingredient.name})">
 			<span class="ingredientNameBefore"></span>
-			<span class="ingredientName">{{ingredient.name}}</span>
+			<span class="ingredientName">{{ingredient.friendly | translate}}</span>
 		</a>
 		<canvas class="ingredientBackground" ingredient="ingredient"></canvas>
 	</li>

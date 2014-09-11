@@ -12,7 +12,7 @@
 	<ul class="recipeIngredients">
 		<li class="recipeIngredient" ng-class="{selected: editMode && contains(ingredient)}" ng-repeat="ingredient in ingredients()">
 			<div class="recipeIngredientColor" style="background-color: {{ingredient.color}}; border-color: {{ingredient.color}};"></div>
-			<span class="recipeIngredientName" ng-click="editMode && toggle(ingredient)">{{ingredient.name}}</span>
+			<span class="recipeIngredientName" ng-click="editMode && toggle(ingredient)">{{ingredient.friendly | translate}}</span>
 		</li>
 	</ul>
 
