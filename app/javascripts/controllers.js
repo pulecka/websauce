@@ -78,7 +78,8 @@ angular.module('opensauce.controllers', [])
 	.controller('UsersController', ['$http', '$scope', 'User', function($http, $scope, User) {
 		$scope.users = User.query();
 	}])
-	.controller('LabController', ['$http', '$scope', function($http, $scope) {
+	.controller('LabController', ['$http', '$scope' , 'Lab', function($http, $scope, Lab) {
+		$scope.lab = Lab.query();
 	}])
 	.controller('AddSauceController', ['$scope', '$state', 'Ingredient', 'Recipe', 'AuthenticationService', function($scope, $state, Ingredient, Recipe, AuthenticationService) {
 		$scope.ingredients = Ingredient.query();

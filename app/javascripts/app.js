@@ -1,4 +1,5 @@
 angular.module('opensauce', [
+        'ngSanitize',
         'ngResource',
         'pascalprecht.translate',
         'ui.router',

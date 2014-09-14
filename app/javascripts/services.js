@@ -37,6 +37,10 @@ angular.module('opensauce.services', [])
         var About = $resource('http://old.opensauce.cz/api/about', {}, {});
         return About;
     }])
+    .factory('Lab', ['$resource', function($resource) {
+        var Lab = $resource('http://old.opensauce.cz/api/lab', {}, {});
+        return Lab;
+    }])
     .service('Mixer', function() {
         var ingredients = [];
         this.clear = function() {

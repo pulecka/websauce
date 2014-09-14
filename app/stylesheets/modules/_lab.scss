@@ -11,6 +11,12 @@
   text-align: left;
 }
 
+.labLink {
+  float: right;
+  font-weight: 200;
+  letter-spacing: .0625em;
+}
+
 .labList p {
   text-align: justify;
   font-size: 18px;
@@ -41,19 +47,16 @@
 
 .event {
   @extend %gridItem;
-  float: left;
   background-position: center;
   background-size: auto 240px;
 }
 
 .eventName {
   @extend %collectionItemTitle;
-  color: $textColorLight;
 }
 
 .eventDate {
   @extend %collectionItemSubtitle;
-  color: $textColorLight;
 }
 
 .overlay {
