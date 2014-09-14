@@ -53,10 +53,12 @@
 
 .eventName {
   @extend %collectionItemTitle;
+  color: $textColorDark;
 }
 
 .eventDate {
   @extend %collectionItemSubtitle;
+  color: $textColorDark;
 }
 
 .overlay {

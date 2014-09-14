@@ -80,6 +80,7 @@ angular.module('opensauce.controllers', [])
 	}])
 	.controller('LabController', ['$http', '$scope' , 'Lab', function($http, $scope, Lab) {
 		$scope.lab = Lab.query();
+		$scope.events = Lab.events();
 	}])
 	.controller('AddSauceController', ['$scope', '$state', 'Ingredient', 'Recipe', 'AuthenticationService', function($scope, $state, Ingredient, Recipe, AuthenticationService) {
 		$scope.ingredients = Ingredient.query();

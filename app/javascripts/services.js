@@ -38,7 +38,14 @@ angular.module('opensauce.services', [])
         return About;
     }])
     .factory('Lab', ['$resource', function($resource) {
-        var Lab = $resource('http://old.opensauce.cz/api/lab', {}, {});
+        var labUrl = 'http://old.opensauce.cz/api/lab',
+            Lab = $resource(labUrl, {}, {
+                events: { 
+                    method: 'GET', 
+                    url: labUrl + '/events',
+                    isArray: true 
+                },
+            });
         return Lab;
     }])
     .service('Mixer', function() {
