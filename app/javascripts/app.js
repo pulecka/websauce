@@ -446,7 +446,11 @@ angular.module('opensauce', [
 
         $httpProvider.interceptors.push('AuthInterceptor');
 
-        document.domain = document.domain;
+        if (document.domain.indexOf('opensauce.cz') !== -1) {
+            document.domain = 'opensauce.cz';
+        } else {
+            document.domain = document.domain;
+        }
     }]);
 
     
