@@ -24,6 +24,10 @@
   margin: 0.5em 0;
 }
 
+.labList p a {
+  text-decoration: underline;
+}
+
 .lab {
   @extend %listItem;
 }
