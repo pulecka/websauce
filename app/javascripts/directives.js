@@ -189,6 +189,37 @@ angular.module('opensauce.directives', [])
             }
         };
     }])
+    .directive('prismicArticle', function() {
+        return {
+            restrict: 'C',
+            templateUrl: '/template/article.html',
+            scope: {
+                article: '='
+            },
+            link: function(scope, element) {
+                scope.$watch('article', function(article) {
+                    if (article) {
+                        scope.title = article.fragments['article.title'];                        
+                        scope.image = article.fragments['article.image'] ? article.fragments['article.image'].value.views.column.url : '';                        
+                        scope.content = article.fragments['article.content'];                        
+                        scope.links = article.fragments['article.links'] ? article.fragments['article.links'].value : [];
+                    }
+                });
+
+                scope.linkUrl = function(link) {
+                    return link.link.value.url;
+                }
+
+                scope.linkLabel = function(link) {
+                    return link.label.value;
+                }
+
+                scope.moreParagraphs = function(content) {
+                    return content ? content.value.length > 1 : true;
+                }
+            }
+        };
+    })
     .directive('headertitle', ['$state', '$interpolate', function($state, $interpolate) {
         return {
             restrict: 'E',

@@ -32,7 +32,7 @@ gulp.task('scripts', function() {
 });
 
 gulp.task('scripts_lib', function() {
-    return gulp.src(['bower_components/jquery/dist/jquery.min.js', 'bower_components/angular/angular.min.js', 'bower_components/angular-sanitize/angular-sanitize.min.js', 'bower_components/angular-resource/angular-resource.min.js', 'bower_components/angular-ui-router/release/angular-ui-router.min.js', 'bower_components/angular-translate/angular-translate.min.js', 'bower_components/d3/d3.min.js'])
+    return gulp.src(['bower_components/jquery/dist/jquery.min.js', 'bower_components/angular/angular.min.js', 'bower_components/angular-sanitize/angular-sanitize.min.js', 'bower_components/angular-resource/angular-resource.min.js', 'bower_components/angular-ui-router/release/angular-ui-router.min.js', 'bower_components/angular-translate/angular-translate.min.js', 'bower_components/d3/d3.min.js', 'bower_components/prismic.io/dist/prismic.io.min.js'])
         .pipe(gulp.dest('public/script/lib'));
 });
 

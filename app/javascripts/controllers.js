@@ -140,6 +140,9 @@ angular.module('opensauce.controllers', [])
 			});
 		};
 	}])
-	.controller('AboutController', ['About', '$scope', function(About, $scope) {
-		$scope.about = About.query();
+	.controller('AboutController', ['Prismic', '$scope', function(Prismic, $scope) {
+		Prismic.get('about').then(function(about) {
+			console.log(about);
+			$scope.about = about;
+		});
 	}]);

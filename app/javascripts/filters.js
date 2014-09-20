@@ -98,6 +98,28 @@ angular.module('opensauce.filters', []).
             return diff;
         };
     })
+    .filter('asHtml', function() {
+        return function(fragment) {
+            if (fragment) {
+                var field = window.Prismic.Fragments.initField(fragment);
+                if (field) {
+                    return field.asHtml();
+                }
+            }
+            return fragment;
+        };
+    })
+    .filter('asText', function() {
+        return function(fragment) {
+            if (fragment) {
+                var field = window.Prismic.Fragments.initField(fragment);
+                if (field) {
+                    return field.asText();
+                }
+            }
+            return fragment;
+        };
+    })
     .filter('contentTranslate', ['$translate', function($translate) {
         return function(content) {
             var translatedContent = content[$translate.use()];

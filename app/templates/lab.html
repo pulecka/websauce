@@ -5,11 +5,10 @@
                 <div class="eventDate">{{event.start | date : 'shortDate'}}</div>
             </div>
         </li>
-        <li class="lab" ng-repeat="labSection in lab">
-            <!-- <div class="labIcon" style="background-image: url({{labSection.image}})"></div> -->
-            <h3 class="labTitle">{{labSection.title | contentTranslate}}
-                <a class="labLink" ng-repeat="link in labSection.links" href="{{link.address}}">open</a>
+        <li class="article" ng-repeat="article in lab">
+            <h3 class="articleTitle">{{article.title | contentTranslate}}
+                <a class="articleLink" ng-repeat="link in article.links" href="{{link.address}}">open</a>
             </h3>
-            <span class="labDescription" ng-bind-html="labSection.description | contentTranslate"></span>
+            <span class="articleContent" ng-bind-html="article.description | contentTranslate"></span>
         </li>
     </ul>
