@@ -1,15 +1,4 @@
-    <ul class="aboutList">
-        <li class="aboutItem" ng-repeat="aboutSection in about">
-            <div class="aboutItemIcon" style="background-image: url({{aboutSection.image}})"></div>
-            <h3 class="aboutItemTitle">{{aboutSection.title | contentTranslate}}</h3>
-            <span class="aboutItemDescription"><p>{{aboutSection.description | contentTranslate}}</p></span>
-        </li>
-        <li class="link blog">
-        </li>
-        <li class="link twitter">
-        </li>
-        <li class="link facebook">
-        </li>
-        <li class="link youtube">
-        </li>
-    </ul>
+<ul class="articles">
+    <li class="prismicArticle article" ng-repeat="article in about" article="article">
+    </li>
+</ul>

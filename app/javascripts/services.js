@@ -48,6 +48,57 @@ angular.module('opensauce.services', [])
             });
         return Lab;
     }])
+    .service('Prismic', ['$q', function($q) {
+        var context,
+            Prismic = window.Prismic;
+
+        function getContext() {
+            var deferred = $q.defer();
+            Prismic.Api('https://d137zpu95r3l8d.cloudfront.net/api', function (error, api) {
+                if (error) {
+                    deferred.reject(error);
+                } else {
+                    deferred.resolve({
+                        api: api,
+                        ref: api.data.master.ref
+                    });
+                }
+            });
+            return deferred.promise;
+        }
+
+        function getLanguageQuery(language) {
+            var query = '[[:d = at(my.article.language, "' + language + '")]]';
+            return query;
+        }
+
+        context = getContext();
+
+        this.get = function(type) {
+            var deferred = $q.defer();
+
+            context.then(function(ctx) {
+                ctx.api.form(type ? type : 'everything').ref(ctx.ref).query(getLanguageQuery('en')).orderings('[my.article.order]').submit(function(error, response) {
+                    deferred.resolve(response.results);
+                });
+            });
+
+            return deferred.promise;
+        };
+
+        this.query = function(predicate) {
+            var deferred = $q.defer();
+
+            context.then(function(ctx) {
+                ctx.api.form('everything').ref(ctx.ref).query(predicate).submit(function(error, response) {
+                    deferred.resolve(response.results);
+                });
+            });
+
+            return deferred.promise;
+        };
+    }])
+
     .service('Mixer', function() {
         var ingredients = [];
         this.clear = function() {
