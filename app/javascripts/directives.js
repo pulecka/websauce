@@ -208,15 +208,11 @@ angular.module('opensauce.directives', [])
 
                 scope.linkUrl = function(link) {
                     return link.link.value.url;
-                }
+                };
 
                 scope.linkLabel = function(link) {
                     return link.label.value;
-                }
-
-                scope.moreParagraphs = function(content) {
-                    return content ? content.value.length > 1 : true;
-                }
+                };
             }
         };
     })
