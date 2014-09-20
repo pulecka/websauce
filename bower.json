@@ -29,6 +29,7 @@
     "angular-resource": "~1.2.16",
     "angular-ui-router": "~0.2.10",
     "angular-translate": "~2.2.0",
-    "angular-sanitize": "~1.2.24"
+    "angular-sanitize": "~1.2.24",
+    "prismic.io": "~1.0.17"
   }
 }
