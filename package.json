@@ -1,30 +1,13 @@
 {
-  "name": "opensauce",
-  "description": "web app for OpenSauce - open source recipe platform",
-  "version": "0.1.0",
-  "engines": {
-    "node": "0.10.x"
-  },
-  "scripts": {
-    "start": "node server.js",
-    "postinstall": "bower install && gulp"
-  },
-  "dependencies": {
-    "bower": "^1.3.8",
-    "express": "~3.4.8",
-    "gulp": "^3.8.6",
-    "gulp-concat": "^2.1.7",
-    "gulp-jshint": "^1.5.0",
-    "gulp-minify-css": "^0.3.0",
-    "gulp-rename": "^1.1.0",
-    "gulp-ruby-sass": "^0.3.1",
-    "gulp-sass": "^0.7.1",
-    "gulp-uglify": "^0.2.1",
-    "gulp-replace": "^0.4.0",
-    "node-neat": "^1.3.0"
-  },
+  "name": "websauce",
+  "description": "web application for opensauce - open source recipe platform",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
-    "url" : "https://github.com/pulecka/websauce.git"
+    "url": "https://github.com/cancel356/websauce"
+  },
+  "scripts": {
+  },
+  "dependencies": {
   }
 }
