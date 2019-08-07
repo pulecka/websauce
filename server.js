@@ -1,17 +1,17 @@
-var express = require('express'),
-    http = require('http'),
-    path = require('path');
+var http = require('http')
 
-var app = express();
+var express = require('express')
+var compression = require('compression')
 
-app.set('port', process.env.PORT || 3333);
-app.use(express.favicon());
-app.use(express.compress());
-app.use(express.static(__dirname + '/public'));
-app.use(function(req, res){
-  res.sendfile('app/index.html');
+var app = express()
+
+app.set('port', process.env.PORT || 3333)
+app.use(compression())
+app.use(express.static(__dirname + '/dist'))
+app.use(function(req, res) {
+  res.sendfile('dist/index.html')
 });
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
-});
+http.createServer(app).listen(app.get('port'), function() {
+  console.log('Express server listening on port ' + app.get('port'))
+})

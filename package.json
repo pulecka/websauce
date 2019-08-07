@@ -3,7 +3,7 @@
   "description": "web app for OpenSauce - open source recipe platform",
   "version": "0.2.0",
   "engines": {
-    "node": "0.10.x"
+    "node": "^10.x || ^12.x"
   },
   "scripts": {
     "start": "node server.js",
@@ -14,7 +14,8 @@
   "dependencies": {
     "bourbon": "^6.0.0",
     "bourbon-neat": "^4.0.0",
-    "express": "~3.4.8"
+    "compression": "^1.7.4",
+    "express": "^4.17.1"
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.3",
