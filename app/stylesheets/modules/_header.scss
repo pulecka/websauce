@@ -14,9 +14,9 @@ menu {
   overflow: hidden;
   list-style: none;
   opacity: 1;
-  @include transition-property (all);
-  @include transition-duration(0.25s);
-  @include transition-timing-function(ease);
+  transition-property: all;
+  transition-duration: 0.25s;
+  transition-timing-function: ease;
 }
 
 menu.ng-hide {
@@ -51,9 +51,9 @@ menu.ng-hide {
   font-weight: 200;
   letter-spacing: 0.0625em;
   list-style: none;
-  @include transition-property (all);
-  @include transition-duration(0.25s);
-  @include transition-timing-function(ease);
+  transition-property: all;
+  transition-duration: 0.25s;
+  transition-timing-function: ease;
 }
 
 .breadcrumbs.menuIsVisible {
@@ -80,9 +80,9 @@ menu.ng-hide {
   letter-spacing: 0.0625em;
   font-size: 1em;
   font-weight: 200;
-  @include transition-property (all);
-  @include transition-duration(0.25s);
-  @include transition-timing-function(ease);
+  transition-property: all;
+  transition-duration: 0.25s;
+  transition-timing-function: ease;
 }
 
 .userInfo.menuIsVisible {
@@ -118,9 +118,9 @@ menu.ng-hide {
   margin: 10px 2px;
   border-radius: 50%;
   background: #646464;
-  @include transition-property (all);
-  @include transition-duration(0.5s);
-  @include transition-timing-function(ease);
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
 }
 
 .menuIsVisible .menuButtonCircle {

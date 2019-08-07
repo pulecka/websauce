@@ -7,15 +7,19 @@
   },
   "scripts": {
     "start": "node server.js",
+    "postinstall": "yarn build",
     "build": "parcel build app/index.pug",
     "serve": "parcel app/index.pug"
   },
   "dependencies": {
+    "bourbon": "^6.0.0",
+    "bourbon-neat": "^4.0.0",
     "express": "~3.4.8"
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.3",
-    "pug": "^2.0.4"
+    "pug": "^2.0.4",
+    "sass": "^1.22.9"
   },
   "repository": {
     "type": "git",
