@@ -1,7 +1,11 @@
 .DS_Store
 .idea
+*.swp
+*.log
+.cache
 .sass-cache
 bower_components
 node_modules
 public
+dist
 tmp
